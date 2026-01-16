@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Developers Valhalla",
-  description: "Desarrollo de software a otro nivel",
+  description: "Software development at another level",
 };
 
 export default function RootLayout({
