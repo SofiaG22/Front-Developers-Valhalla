@@ -14,8 +14,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Developers Valhalla",
-  description: "Software development at another level",
+  title: "Devs Valhalla | Premium Software Development | Colombia & USA",
+  description: "Elite software development company from Colombia serving global clients. Premium custom software solutions, enterprise applications, and cutting-edge technology for businesses worldwide, especially USA.",
+  keywords: "software development Colombia, custom software USA, enterprise applications, premium software solutions, web development, mobile apps, Colombia developers, USA software company",
+  authors: [{ name: "Devs Valhalla" }],
+  openGraph: {
+    title: "Devs Valhalla | Premium Software Development",
+    description: "Elite software development from Colombia. Premium custom software for global businesses.",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Devs Valhalla | Premium Software Development",
+    description: "Elite software development from Colombia. Premium custom software for global businesses.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -24,11 +41,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-text-DEFAULT flex flex-col min-h-screen`}
       >
-        {children}
+        <div className="flex-1">
+          {children}
+        </div>
         <Footer />
       </body>
     </html>
