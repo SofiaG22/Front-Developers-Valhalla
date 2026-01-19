@@ -2,9 +2,11 @@
 
 import { useEffect, useRef } from "react";
 import { ArrowRight, Sparkles, Globe, Code2 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
 
   return (
     <section
@@ -26,22 +28,21 @@ export default function Hero() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-md rounded-full text-white/90 text-sm font-medium mb-8 animate-fade-in-down">
             <Sparkles className="w-4 h-4" />
-            <span>Premium Software Development</span>
+            <span>{t("hero.badge")}</span>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            Elite Software
+            {t("hero.title")}
             <br />
             <span className="bg-gradient-to-r from-white via-indigo-100 to-white bg-clip-text text-transparent">
-              Development
+              {t("hero.title2")}
             </span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            From Colombia to the world. We craft premium software solutions that scale,
-            delivering exceptional value to businesses across the globe, especially the USA.
+            {t("hero.subtitle")}
           </p>
 
           {/* CTA Buttons */}
@@ -50,23 +51,23 @@ export default function Hero() {
               href="/services"
               className="group inline-flex items-center gap-2 px-8 py-4 bg-white text-primary rounded-xl font-semibold text-lg shadow-2xl shadow-black/20 hover:shadow-3xl hover:shadow-primary/50 transition-all duration-300 hover:scale-105"
             >
-              <span className="text-primary">Explore Our Solutions</span>
+              <span className="text-primary">{t("hero.cta1")}</span>
               <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
             </a>
             <a
               href="/contact"
               className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-md text-white border-2 border-white/30 rounded-xl font-semibold text-lg hover:bg-white/20 hover:border-white/50 transition-all duration-300"
             >
-              Get Started
+              {t("hero.cta2")}
             </a>
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             {[
-              { icon: Globe, value: "50+", label: "Global Clients", delay: "0s" },
-              { icon: Code2, value: "100+", label: "Projects Delivered", delay: "0.1s" },
-              { icon: Sparkles, value: "99%", label: "Client Satisfaction", delay: "0.2s" },
+              { icon: Globe, value: "50+", labelKey: "hero.stats.clients", delay: "0s" },
+              { icon: Code2, value: "100+", labelKey: "hero.stats.projects", delay: "0.1s" },
+              { icon: Sparkles, value: "99%", labelKey: "hero.stats.satisfaction", delay: "0.2s" },
             ].map((stat, index) => (
               <div
                 key={index}
@@ -75,7 +76,7 @@ export default function Hero() {
               >
                 <stat.icon className="w-8 h-8 text-white mb-3 mx-auto" />
                 <div className="text-4xl font-bold text-white mb-2">{stat.value}</div>
-                <div className="text-white/80 text-sm font-medium">{stat.label}</div>
+                <div className="text-white/80 text-sm font-medium">{t(stat.labelKey)}</div>
               </div>
             ))}
           </div>

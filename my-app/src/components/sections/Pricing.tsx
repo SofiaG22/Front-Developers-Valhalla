@@ -67,19 +67,19 @@ const plans = [
 
 export default function Pricing() {
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-24 bg-white dark:bg-gray-900 relative overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in-up">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 dark:bg-primary/20 rounded-full text-primary dark:text-indigo-400 font-semibold mb-4">
             <Zap className="w-4 h-4" />
             Transparent Pricing
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-text-DEFAULT mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-text-DEFAULT dark:text-gray-100 mb-4">
             Choose Your{" "}
-            <span className="text-primary">Journey</span>
+            <span className="text-primary dark:text-indigo-400">Journey</span>
           </h2>
-          <p className="text-xl text-text-muted max-w-3xl mx-auto">
+          <p className="text-xl text-text-muted dark:text-gray-300 max-w-3xl mx-auto">
             All-inclusive packages with no hidden fees. Every project is custom-tailored,
             but here's a starting point for your investment.
           </p>
@@ -90,10 +90,10 @@ export default function Pricing() {
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`relative bg-white rounded-3xl p-8 border-2 transition-all duration-300 hover:-translate-y-2 ${
+              className={`relative bg-white dark:bg-gray-800 rounded-3xl p-8 border-2 transition-all duration-300 hover:-translate-y-2 ${
                 plan.popular
-                  ? "border-primary shadow-2xl shadow-primary/30 scale-105 z-10"
-                  : "border-gray-200 hover:border-primary/50 shadow-lg hover:shadow-xl"
+                  ? "border-primary dark:border-indigo-500 shadow-2xl shadow-primary/30 dark:shadow-indigo-900/30 scale-105 z-10"
+                  : "border-gray-200 dark:border-gray-700 hover:border-primary/50 dark:hover:border-indigo-500/50 shadow-lg hover:shadow-xl"
               } animate-fade-in-up`}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
@@ -119,16 +119,16 @@ export default function Pricing() {
                     }`}
                   />
                 </div>
-                <h3 className="text-2xl font-bold text-text-DEFAULT mb-2">
+                <h3 className="text-2xl font-bold text-text-DEFAULT dark:text-gray-100 mb-2">
                   {plan.name}
                 </h3>
-                <p className="text-text-muted text-sm mb-4">{plan.description}</p>
+                <p className="text-text-muted dark:text-gray-300 text-sm mb-4">{plan.description}</p>
                 <div className="mb-2">
-                  <span className="text-5xl font-bold text-text-DEFAULT">
+                  <span className="text-5xl font-bold text-text-DEFAULT dark:text-gray-100">
                     {plan.price}
                   </span>
                   {plan.price !== "Custom" && (
-                    <span className="text-text-muted text-lg">/project</span>
+                    <span className="text-text-muted dark:text-gray-300 text-lg">/project</span>
                   )}
                 </div>
               </div>
@@ -146,7 +146,7 @@ export default function Pricing() {
                     >
                       <Check className="w-3 h-3" />
                     </div>
-                    <span className="text-text-muted">{feature}</span>
+                    <span className="text-text-muted dark:text-gray-300">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -157,7 +157,7 @@ export default function Pricing() {
                 className={`block w-full text-center py-4 rounded-xl font-semibold transition-all duration-300 ${
                   plan.popular
                     ? "bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] text-white hover:shadow-xl hover:scale-105"
-                    : "bg-primary/10 text-primary hover:bg-gradient-to-r hover:from-[#4F46E5] hover:to-[#7C3AED] hover:text-white"
+                    : "bg-primary/10 dark:bg-primary/20 text-primary dark:text-indigo-400 hover:bg-gradient-to-r hover:from-[#4F46E5] hover:to-[#7C3AED] hover:text-white"
                 }`}
               >
                 <span className={plan.popular ? "text-white" : ""}>{plan.cta}</span>
@@ -168,8 +168,8 @@ export default function Pricing() {
 
         {/* Additional Info */}
         <div className="mt-16 text-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-          <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-text-DEFAULT mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 shadow-sm max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold text-text-DEFAULT dark:text-gray-100 mb-4">
               All Plans Include
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
@@ -182,13 +182,13 @@ export default function Pricing() {
                 "Regular progress updates",
               ].map((item, index) => (
                 <div key={index} className="flex items-center gap-2">
-                  <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                  <span className="text-text-muted">{item}</span>
+                  <Check className="w-5 h-5 text-primary dark:text-indigo-400 flex-shrink-0" />
+                  <span className="text-text-muted dark:text-gray-300">{item}</span>
                 </div>
               ))}
             </div>
-            <p className="mt-6 text-text-muted">
-              <span className="font-semibold text-text-DEFAULT">Note:</span> All prices are starting points.
+            <p className="mt-6 text-text-muted dark:text-gray-300">
+              <span className="font-semibold text-text-DEFAULT dark:text-gray-100">Note:</span> All prices are starting points.
               Final pricing is customized based on your specific requirements. Contact us for a detailed quote.
             </p>
           </div>

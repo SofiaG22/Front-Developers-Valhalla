@@ -12,10 +12,10 @@ const technologies = [
 
 export default function TechMarquee() {
   return (
-    <section className="py-12 bg-white border-y border-gray-200 overflow-hidden relative">
+    <section className="py-12 bg-white dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800 overflow-hidden relative transition-colors duration-300">
       {/* Gradient Overlays */}
-      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white dark:from-gray-900 to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white dark:from-gray-900 to-transparent z-10 pointer-events-none" />
       
       <div className="relative">
         <div 
@@ -31,7 +31,7 @@ export default function TechMarquee() {
               className="inline-flex items-center gap-4 mx-6 flex-shrink-0"
             >
               <TechIcon name={tech} />
-              <span className="text-xl md:text-2xl font-bold text-text-muted hover:text-primary transition-colors duration-300">
+              <span className="text-xl md:text-2xl font-bold text-text-muted dark:text-gray-400 hover:text-primary dark:hover:text-indigo-400 transition-colors duration-300">
                 {tech}
               </span>
             </div>
@@ -43,7 +43,7 @@ export default function TechMarquee() {
               className="inline-flex items-center gap-4 mx-6 flex-shrink-0"
             >
               <TechIcon name={tech} />
-              <span className="text-xl md:text-2xl font-bold text-text-muted hover:text-primary transition-colors duration-300">
+              <span className="text-xl md:text-2xl font-bold text-text-muted dark:text-gray-400 hover:text-primary dark:hover:text-indigo-400 transition-colors duration-300">
                 {tech}
               </span>
             </div>

@@ -1,8 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Instagram, Linkedin, Github, Mail, MapPin } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Footer() {
+    const { t } = useLanguage();
     return (
         <footer className="bg-[#4F46E5] text-white relative overflow-hidden mt-auto">
             {/* Background Pattern */}
@@ -15,7 +19,7 @@ export default function Footer() {
                     <div className="md:col-span-1">
                         <div className="flex items-center gap-3 mb-4">
                             <Image
-                                src="/logo-DV2.svg"
+                                src="/logo-DVa.png"
                                 alt="Devs Valhalla Logo"
                                 width={100}
                                 height={100}
@@ -26,19 +30,18 @@ export default function Footer() {
                             </span>
                         </div>
                         <p className="text-white/80 text-sm leading-relaxed">
-                            Elite software development from Colombia to the world.
-                            Premium solutions for global businesses.
+                            {t("footer.description")}
                         </p>
                     </div>
 
                     {/* Contact */}
                     <div>
-                        <h4 className="mb-4 text-white font-bold text-lg">Contact</h4>
+                        <h4 className="mb-4 text-white font-bold text-lg">{t("footer.contact")}</h4>
                         <ul className="space-y-3 text-white/80 text-sm">
                             <li className="flex items-center gap-2">
                                 <Mail className="w-4 h-4 text-white/60" />
-                                <a href="mailto:contact@devsvalhalla.com" className="hover:text-white transition-colors">
-                                    contact@devsvalhalla.com
+                                <a href="mailto:admin@developersvalhalla.com" className="hover:text-white transition-colors">
+                                    admin@developersvalhalla.com
                                 </a>
                             </li>
                             <li className="flex items-center gap-2">
@@ -50,26 +53,26 @@ export default function Footer() {
 
                     {/* Legal */}
                     <div>
-                        <h4 className="mb-4 text-white font-bold text-lg">Legal</h4>
+                        <h4 className="mb-4 text-white font-bold text-lg">{t("footer.legal")}</h4>
                         <ul className="space-y-3 text-white/80 text-sm">
                             <li>
                                 <Link href="/about" className="hover:text-white transition-colors">
-                                    About Us
+                                    {t("footer.aboutUs")}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/services" className="hover:text-white transition-colors">
-                                    Services
+                                    {t("footer.services")}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/portfolio" className="hover:text-white transition-colors">
-                                    Portfolio
+                                    {t("footer.portfolio")}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/contact" className="hover:text-white transition-colors">
-                                    Contact
+                                    {t("footer.contact")}
                                 </Link>
                             </li>
                         </ul>
@@ -77,7 +80,7 @@ export default function Footer() {
 
                     {/* Social */}
                     <div>
-                        <h4 className="mb-4 text-white font-bold text-lg">Follow Us</h4>
+                        <h4 className="mb-4 text-white font-bold text-lg">{t("footer.followUs")}</h4>
                         <div className="flex gap-4">
                             <a 
                                 href="#" 
@@ -107,9 +110,9 @@ export default function Footer() {
 
                 {/* Bottom */}
                 <div className="pt-8 border-t border-white/20 text-center text-sm text-white/70">
-                    <p>© {new Date().getFullYear()} Devs Valhalla. All rights reserved.</p>
+                    <p>© {new Date().getFullYear()} Devs Valhalla. {t("footer.rightsReserved")}.</p>
                     <p className="mt-2 text-xs text-white/60">
-                        Elite software development | Colombia → Global | Premium quality guaranteed
+                        {t("footer.tagline")}
                     </p>
                 </div>
             </div>

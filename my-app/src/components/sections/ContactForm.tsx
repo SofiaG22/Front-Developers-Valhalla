@@ -2,8 +2,10 @@
 
 import { useState, FormEvent } from "react";
 import { Send, Mail, MapPin, Phone, CheckCircle2, Loader2 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function ContactForm() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,6 +17,7 @@ export default function ContactForm() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -28,43 +31,59 @@ export default function ContactForm() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-
-    // Reset form after 5 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        phone: "",
-        budget: "",
-        projectType: "",
-        message: "",
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
-    }, 5000);
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      setIsSubmitted(true);
+      
+      // Reset form after 5 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          name: "",
+          email: "",
+          company: "",
+          phone: "",
+          budget: "",
+          projectType: "",
+          message: "",
+        });
+      }, 5000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
     return (
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center animate-scale-in">
-        <div className="bg-white rounded-3xl p-12 shadow-xl border-2 border-primary/20">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl p-12 shadow-xl border-2 border-primary/20 dark:border-indigo-500/20">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-full mb-6">
             <CheckCircle2 className="w-10 h-10 text-white" />
           </div>
-          <h2 className="text-3xl font-bold text-text-DEFAULT mb-4">
-            Thank You!
+          <h2 className="text-3xl font-bold text-text-DEFAULT dark:text-gray-100 mb-4">
+            {t("contact.form.thankYou")}
           </h2>
-          <p className="text-xl text-text-muted mb-2">
-            We've received your message.
+          <p className="text-xl text-text-muted dark:text-gray-300 mb-2">
+            {t("contact.form.received")}
           </p>
-          <p className="text-text-muted">
-            Our team will get back to you within 24 hours.
+          <p className="text-text-muted dark:text-gray-300">
+            {t("contact.form.response")}
           </p>
         </div>
       </div>
@@ -76,39 +95,39 @@ export default function ContactForm() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12 animate-fade-in-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-text-DEFAULT mb-4">
-            Let's Build Something
-            <span className="text-primary"> Amazing</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-text-DEFAULT dark:text-gray-100 mb-4">
+            {t("contact.form.title")}
+            <span className="text-primary dark:text-indigo-400"> {t("contact.form.titleHighlight")}</span>
           </h2>
-          <p className="text-xl text-text-muted max-w-3xl mx-auto">
-            Tell us about your project, and we'll craft a custom solution that exceeds your expectations.
+          <p className="text-xl text-text-muted dark:text-gray-300 max-w-3xl mx-auto">
+            {t("contact.form.subtitle")}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Contact Info */}
           <div className="lg:col-span-1 space-y-6 animate-fade-in-right">
-            <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
-              <h3 className="text-xl font-bold text-text-DEFAULT mb-6">
-                Get in Touch
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+              <h3 className="text-xl font-bold text-text-DEFAULT dark:text-gray-100 mb-6">
+                {t("contact.form.getInTouch")}
               </h3>
               <div className="space-y-6">
                 {[
                   {
                     icon: Mail,
-                    label: "Email",
-                    value: "contact@devsvalhalla.com",
-                    href: "mailto:contact@devsvalhalla.com",
+                    label: t("contact.info.email"),
+                    value: "admin@developersvalhalla.com",
+                    href: "mailto:admin@developersvalhalla.com",
                   },
                   {
                     icon: Phone,
-                    label: "Phone",
-                    value: "+57 (1) 234-5678",
-                    href: "tel:+5712345678",
+                    label: t("contact.info.phone"),
+                    value: "3228067742",
+                    href: "tel:+573228067742",
                   },
                   {
                     icon: MapPin,
-                    label: "Location",
+                    label: t("contact.info.location"),
                     value: "Bogotá, Colombia",
                     href: null,
                   },
@@ -117,22 +136,22 @@ export default function ContactForm() {
                     key={index}
                     className="flex items-start gap-4 group"
                   >
-                    <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
-                      <contact.icon className="w-6 h-6 text-primary group-hover:text-white transition-colors duration-300" />
+                    <div className="flex-shrink-0 w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
+                      <contact.icon className="w-6 h-6 text-primary dark:text-indigo-400 group-hover:text-white transition-colors duration-300" />
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-text-muted mb-1">
+                      <div className="text-sm font-semibold text-text-muted dark:text-gray-400 mb-1">
                         {contact.label}
                       </div>
                       {contact.href ? (
                         <a
                           href={contact.href}
-                          className="text-text-DEFAULT hover:text-primary transition-colors"
+                          className="text-text-DEFAULT dark:text-gray-200 hover:text-primary dark:hover:text-indigo-400 transition-colors"
                         >
                           {contact.value}
                         </a>
                       ) : (
-                        <div className="text-text-DEFAULT">{contact.value}</div>
+                        <div className="text-text-DEFAULT dark:text-gray-200">{contact.value}</div>
                       )}
                     </div>
                   </div>
@@ -141,12 +160,12 @@ export default function ContactForm() {
             </div>
 
             <div className="bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] rounded-2xl p-6 text-white">
-              <h4 className="font-bold text-lg mb-3">Why Choose Us?</h4>
+              <h4 className="font-bold text-lg mb-3">{t("contact.form.whyChooseUs")}</h4>
               <ul className="space-y-2 text-sm text-white/90">
-                <li>✓ 50+ successful projects</li>
-                <li>✓ Expert Colombian developers</li>
-                <li>✓ US timezone friendly</li>
-                <li>✓ Premium quality guarantee</li>
+                <li>✓ {t("contact.form.whyChooseUs1")}</li>
+                <li>✓ {t("contact.form.whyChooseUs2")}</li>
+                <li>✓ {t("contact.form.whyChooseUs3")}</li>
+                <li>✓ {t("contact.form.whyChooseUs4")}</li>
               </ul>
             </div>
           </div>
@@ -155,16 +174,16 @@ export default function ContactForm() {
           <div className="lg:col-span-2 animate-fade-in-left">
             <form
               onSubmit={handleSubmit}
-              className="bg-white rounded-2xl p-8 md:p-10 border border-gray-200 shadow-xl"
+              className="bg-white dark:bg-gray-800 rounded-2xl p-8 md:p-10 border border-gray-200 dark:border-gray-700 shadow-xl"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 {/* Name */}
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-semibold text-text-DEFAULT mb-2"
+                    className="block text-sm font-semibold text-text-DEFAULT dark:text-gray-100 mb-2"
                   >
-                    Full Name *
+                    {t("contact.form.fullName")}
                   </label>
                   <input
                     type="text"
@@ -173,8 +192,8 @@ export default function ContactForm() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
-                    placeholder="John Doe"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-DEFAULT dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                    placeholder={t("contact.form.placeholderName")}
                   />
                 </div>
 
@@ -182,9 +201,9 @@ export default function ContactForm() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-semibold text-text-DEFAULT mb-2"
+                    className="block text-sm font-semibold text-text-DEFAULT dark:text-gray-100 mb-2"
                   >
-                    Email Address *
+                    {t("contact.form.email")}
                   </label>
                   <input
                     type="email"
@@ -193,8 +212,8 @@ export default function ContactForm() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
-                    placeholder="john@company.com"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-DEFAULT dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                    placeholder={t("contact.form.placeholderEmail")}
                   />
                 </div>
 
@@ -202,9 +221,9 @@ export default function ContactForm() {
                 <div>
                   <label
                     htmlFor="company"
-                    className="block text-sm font-semibold text-text-DEFAULT mb-2"
+                    className="block text-sm font-semibold text-text-DEFAULT dark:text-gray-100 mb-2"
                   >
-                    Company Name
+                    {t("contact.form.company")}
                   </label>
                   <input
                     type="text"
@@ -212,8 +231,8 @@ export default function ContactForm() {
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
-                    placeholder="Your Company Inc."
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-DEFAULT dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                    placeholder={t("contact.form.placeholderCompany")}
                   />
                 </div>
 
@@ -221,9 +240,9 @@ export default function ContactForm() {
                 <div>
                   <label
                     htmlFor="phone"
-                    className="block text-sm font-semibold text-text-DEFAULT mb-2"
+                    className="block text-sm font-semibold text-text-DEFAULT dark:text-gray-100 mb-2"
                   >
-                    Phone Number
+                    {t("contact.form.phone")}
                   </label>
                   <input
                     type="tel"
@@ -231,8 +250,8 @@ export default function ContactForm() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
-                    placeholder="+1 (555) 123-4567"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-DEFAULT dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                    placeholder={t("contact.form.placeholderPhone")}
                   />
                 </div>
 
@@ -240,23 +259,23 @@ export default function ContactForm() {
                 <div>
                   <label
                     htmlFor="budget"
-                    className="block text-sm font-semibold text-text-DEFAULT mb-2"
+                    className="block text-sm font-semibold text-text-DEFAULT dark:text-gray-100 mb-2"
                   >
-                    Project Budget
+                    {t("contact.form.budget")}
                   </label>
                   <select
                     id="budget"
                     name="budget"
                     value={formData.budget}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-DEFAULT dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
                   >
-                    <option value="">Select budget range</option>
-                    <option value="10k-25k">$10,000 - $25,000</option>
-                    <option value="25k-50k">$25,000 - $50,000</option>
-                    <option value="50k-100k">$50,000 - $100,000</option>
-                    <option value="100k+">$100,000+</option>
-                    <option value="custom">Custom / Let's discuss</option>
+                    <option value="">{t("contact.form.budgetOptions.select")}</option>
+                    <option value="10k-25k">{t("contact.form.budgetOptions.range1")}</option>
+                    <option value="25k-50k">{t("contact.form.budgetOptions.range2")}</option>
+                    <option value="50k-100k">{t("contact.form.budgetOptions.range3")}</option>
+                    <option value="100k+">{t("contact.form.budgetOptions.range4")}</option>
+                    <option value="custom">{t("contact.form.budgetOptions.custom")}</option>
                   </select>
                 </div>
 
@@ -264,24 +283,24 @@ export default function ContactForm() {
                 <div>
                   <label
                     htmlFor="projectType"
-                    className="block text-sm font-semibold text-text-DEFAULT mb-2"
+                    className="block text-sm font-semibold text-text-DEFAULT dark:text-gray-100 mb-2"
                   >
-                    Project Type
+                    {t("contact.form.projectType")}
                   </label>
                   <select
                     id="projectType"
                     name="projectType"
                     value={formData.projectType}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-DEFAULT dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
                   >
-                    <option value="">Select project type</option>
-                    <option value="web-app">Web Application</option>
-                    <option value="mobile-app">Mobile Application</option>
-                    <option value="enterprise">Enterprise Software</option>
-                    <option value="api">API Development</option>
-                    <option value="cloud">Cloud Solutions</option>
-                    <option value="other">Other</option>
+                    <option value="">{t("contact.form.projectTypeOptions.select")}</option>
+                    <option value="web-app">{t("contact.form.projectTypeOptions.webApp")}</option>
+                    <option value="mobile-app">{t("contact.form.projectTypeOptions.mobileApp")}</option>
+                    <option value="enterprise">{t("contact.form.projectTypeOptions.enterprise")}</option>
+                    <option value="api">{t("contact.form.projectTypeOptions.api")}</option>
+                    <option value="cloud">{t("contact.form.projectTypeOptions.cloud")}</option>
+                    <option value="other">{t("contact.form.projectTypeOptions.other")}</option>
                   </select>
                 </div>
               </div>
@@ -290,9 +309,9 @@ export default function ContactForm() {
               <div className="mb-6">
                 <label
                   htmlFor="message"
-                  className="block text-sm font-semibold text-text-DEFAULT mb-2"
+                  className="block text-sm font-semibold text-text-DEFAULT dark:text-gray-100 mb-2"
                 >
-                  Project Details *
+                  {t("contact.form.message")}
                 </label>
                 <textarea
                   id="message"
@@ -301,10 +320,19 @@ export default function ContactForm() {
                   rows={6}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 resize-none"
-                  placeholder="Tell us about your project, goals, timeline, and any specific requirements..."
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-DEFAULT dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 resize-none"
+                  placeholder={t("contact.form.placeholderMessage")}
                 />
               </div>
+
+              {/* Error Message */}
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
+                  <p className="text-red-600 dark:text-red-400 text-sm font-medium">
+                    {error}
+                  </p>
+                </div>
+              )}
 
               {/* Submit Button */}
               <button
@@ -315,18 +343,18 @@ export default function ContactForm() {
                 {isSubmitting ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin text-white" />
-                    <span className="text-white">Sending...</span>
+                    <span className="text-white">{t("contact.form.sending")}</span>
                   </>
                 ) : (
                   <>
-                    <span className="text-white">Send Message</span>
+                    <span className="text-white">{t("contact.form.sendMessage")}</span>
                     <Send className="w-5 h-5 text-white" />
                   </>
                 )}
               </button>
 
-              <p className="mt-4 text-sm text-text-muted text-center">
-                We'll respond within 24 hours. Your information is secure and confidential.
+              <p className="mt-4 text-sm text-text-muted dark:text-gray-300 text-center">
+                {t("contact.form.secure")}
               </p>
             </form>
           </div>

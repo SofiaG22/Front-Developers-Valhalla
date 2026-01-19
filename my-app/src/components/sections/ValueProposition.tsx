@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckCircle2, Zap, Shield, Users, TrendingUp, Globe2 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const values = [
   {
@@ -36,21 +37,22 @@ const values = [
 ];
 
 export default function ValueProposition() {
+  const { t } = useLanguage();
+  
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
+    <section className="py-24 bg-white dark:bg-gray-900 relative overflow-hidden transition-colors duration-300">
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#4F46E5_1px,transparent_1px),linear-gradient(to_bottom,#4F46E5_1px,transparent_1px)] bg-[size:3rem_3rem]" />
+      <div className="absolute inset-0 opacity-5 dark:opacity-10 bg-[linear-gradient(to_right,#4F46E5_1px,transparent_1px),linear-gradient(to_bottom,#4F46E5_1px,transparent_1px)] bg-[size:3rem_3rem]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-text-DEFAULT mb-4">
-            Why Choose{" "}
-            <span className="text-primary">Devs Valhalla</span>?
+          <h2 className="text-4xl md:text-5xl font-bold text-text-DEFAULT dark:text-gray-100 mb-4">
+            {t("valueProposition.title")}{" "}
+            <span className="text-primary dark:text-indigo-400">{t("valueProposition.titleHighlight")}</span>?
           </h2>
-          <p className="text-xl text-text-muted max-w-3xl mx-auto">
-            We don't just code. We craft software solutions that drive business growth,
-            reduce costs, and exceed expectations.
+          <p className="text-xl text-text-muted dark:text-gray-300 max-w-3xl mx-auto">
+            {t("valueProposition.subtitle")}
           </p>
         </div>
 
@@ -59,7 +61,7 @@ export default function ValueProposition() {
           {values.map((value, index) => (
             <div
               key={index}
-              className="group relative bg-white rounded-2xl p-8 border border-gray-200 hover:border-primary/50 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
+              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary/50 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Icon */}
@@ -68,10 +70,10 @@ export default function ValueProposition() {
               </div>
 
               {/* Content */}
-              <h3 className="text-xl font-bold text-text-DEFAULT mb-3">
+              <h3 className="text-xl font-bold text-text-DEFAULT dark:text-gray-100 mb-3">
                 {value.title}
               </h3>
-              <p className="text-text-muted leading-relaxed">
+              <p className="text-text-muted dark:text-gray-300 leading-relaxed">
                 {value.description}
               </p>
 
@@ -83,14 +85,14 @@ export default function ValueProposition() {
 
         {/* Bottom CTA */}
         <div className="mt-16 text-center animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-          <p className="text-lg text-text-muted mb-6">
+          <p className="text-lg text-text-muted dark:text-gray-300 mb-6">
             Ready to transform your business with premium software?
           </p>
           <a
             href="/contact"
             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] text-white rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
           >
-            <span className="text-white">Start Your Project</span>
+            <span className="text-white">{t("valueProposition.cta")}</span>
             <TrendingUp className="w-5 h-5 text-white" />
           </a>
         </div>

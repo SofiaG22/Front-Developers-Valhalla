@@ -3,6 +3,7 @@
 import Navbar from "@/components/Navbar";
 import TechMarquee from "@/components/sections/TechMarquee";
 import { Globe, Smartphone, Cloud, Database, Code, Shield, Zap, Sparkles, ArrowRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const services = [
   {
@@ -109,46 +110,11 @@ const services = [
   },
 ];
 
-const process = [
-  {
-    step: "01",
-    title: "Discovery & Planning",
-    description: "We dive deep into your business needs, goals, and technical requirements.",
-    icon: Sparkles,
-  },
-  {
-    step: "02",
-    title: "Design & Architecture",
-    description: "Our team designs the perfect solution architecture and user experience.",
-    icon: Code,
-  },
-  {
-    step: "03",
-    title: "Development",
-    description: "Agile development with regular sprints, demos, and feedback loops.",
-    icon: Zap,
-  },
-  {
-    step: "04",
-    title: "Testing & Quality",
-    description: "Rigorous testing ensures bug-free, performant, and secure software.",
-    icon: Shield,
-  },
-  {
-    step: "05",
-    title: "Deployment",
-    description: "Seamless deployment with zero downtime and comprehensive documentation.",
-    icon: Cloud,
-  },
-  {
-    step: "06",
-    title: "Support & Maintenance",
-    description: "Ongoing support, updates, and optimization to keep your software running smoothly.",
-    icon: ArrowRight,
-  },
-];
+// Process steps will be translated in the component
 
 export default function Services() {
+  const { t } = useLanguage();
+  
   return (
     <>
       <Navbar />
@@ -164,15 +130,14 @@ export default function Services() {
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
             <div className="animate-fade-in-up">
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight">
-                Our
+                {t("services.hero.title")}
                 <br />
                 <span className="bg-gradient-to-r from-white via-indigo-100 to-white bg-clip-text text-transparent">
-                  Services
+                  {t("services.hero.title2")}
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-                Comprehensive software development services tailored to your business needs.
-                From concept to deployment and beyond.
+                {t("services.hero.subtitle")}
               </p>
             </div>
           </div>
@@ -182,14 +147,14 @@ export default function Services() {
         <TechMarquee />
 
         {/* Services Grid */}
-        <section className="py-24 bg-white relative overflow-hidden">
-          <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#4F46E5_1px,transparent_1px),linear-gradient(to_bottom,#4F46E5_1px,transparent_1px)] bg-[size:3rem_3rem]" />
+        <section className="py-24 bg-white dark:bg-gray-900 relative overflow-hidden transition-colors duration-300">
+          <div className="absolute inset-0 opacity-5 dark:opacity-10 bg-[linear-gradient(to_right,#4F46E5_1px,transparent_1px),linear-gradient(to_bottom,#4F46E5_1px,transparent_1px)] bg-[size:3rem_3rem]" />
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {services.map((service, index) => (
                 <div
                   key={index}
-                  className="group relative bg-white rounded-3xl p-8 border-2 border-gray-200 hover:border-transparent transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up"
+                  className="group relative bg-white dark:bg-gray-800 rounded-3xl p-8 border-2 border-gray-200 dark:border-gray-700 hover:border-transparent transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} rounded-3xl opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
@@ -200,25 +165,25 @@ export default function Services() {
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-2xl font-bold text-text-DEFAULT mb-3">
+                  <h3 className="text-2xl font-bold text-text-DEFAULT dark:text-gray-100 mb-3">
                     {service.title}
                   </h3>
-                  <p className="text-text-muted mb-6 leading-relaxed">
+                  <p className="text-text-muted dark:text-gray-300 mb-6 leading-relaxed">
                     {service.description}
                   </p>
 
                   {/* Technologies */}
-                  <div className="mb-6 p-4 bg-background-muted rounded-xl">
-                    <p className="text-sm font-semibold text-text-DEFAULT mb-2">Technologies:</p>
-                    <p className="text-sm text-text-muted">{service.technologies}</p>
+                  <div className="mb-6 p-4 bg-background-muted dark:bg-gray-700 rounded-xl">
+                    <p className="text-sm font-semibold text-text-DEFAULT dark:text-gray-100 mb-2">{t("services.technologies")}</p>
+                    <p className="text-sm text-text-muted dark:text-gray-300">{service.technologies}</p>
                   </div>
 
                   {/* Features */}
                   <div className="space-y-2 mb-6">
-                    <p className="text-sm font-semibold text-text-DEFAULT mb-3">Key Features:</p>
+                    <p className="text-sm font-semibold text-text-DEFAULT dark:text-gray-100 mb-3">{t("services.keyFeatures")}</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {service.features.map((feature, fIndex) => (
-                        <div key={fIndex} className="flex items-start gap-2 text-sm text-text-muted">
+                        <div key={fIndex} className="flex items-start gap-2 text-sm text-text-muted dark:text-gray-300">
                           <div className={`w-1.5 h-1.5 bg-gradient-to-br ${service.gradient} rounded-full mt-1.5 flex-shrink-0`} />
                           {feature}
                         </div>
@@ -231,7 +196,7 @@ export default function Services() {
                     href="/contact"
                     className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
                   >
-                    Get Started
+                    {t("services.getStarted")}
                     <ArrowRight className="w-4 h-4" />
                   </a>
                 </div>
@@ -241,38 +206,45 @@ export default function Services() {
         </section>
 
         {/* Process Section */}
-        <section className="py-24 bg-gradient-to-br from-background-muted via-white to-background-muted relative overflow-hidden">
+        <section className="py-24 bg-gradient-to-br from-background-muted dark:from-gray-800 via-white dark:via-gray-900 to-background-muted dark:to-gray-800 relative overflow-hidden transition-colors duration-300">
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl -z-10" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16 animate-fade-in-up">
-              <h2 className="text-4xl md:text-5xl font-bold text-text-DEFAULT mb-4">
-                Our <span className="text-primary">Process</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-text-DEFAULT dark:text-gray-100 mb-4">
+                {t("services.process.title")} <span className="text-primary dark:text-indigo-400">{t("services.process.titleHighlight")}</span>
               </h2>
-              <p className="text-xl text-text-muted max-w-3xl mx-auto">
-                A proven methodology that ensures success from start to finish.
+              <p className="text-xl text-text-muted dark:text-gray-300 max-w-3xl mx-auto">
+                {t("services.process.subtitle")}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {process.map((phase, index) => (
+              {[
+                { step: "01", titleKey: "services.process.step1.title", descKey: "services.process.step1.description", icon: Sparkles },
+                { step: "02", titleKey: "services.process.step2.title", descKey: "services.process.step2.description", icon: Code },
+                { step: "03", titleKey: "services.process.step3.title", descKey: "services.process.step3.description", icon: Zap },
+                { step: "04", titleKey: "services.process.step4.title", descKey: "services.process.step4.description", icon: Shield },
+                { step: "05", titleKey: "services.process.step5.title", descKey: "services.process.step5.description", icon: Cloud },
+                { step: "06", titleKey: "services.process.step6.title", descKey: "services.process.step6.description", icon: ArrowRight },
+              ].map((phase, index) => (
                 <div
                   key={index}
-                  className="group relative bg-white rounded-3xl p-8 border-2 border-gray-200 hover:border-primary/50 transition-all duration-500 hover:shadow-xl hover:-translate-y-2 animate-fade-in-up"
+                  className="group relative bg-white dark:bg-gray-800 rounded-3xl p-8 border-2 border-gray-200 dark:border-gray-700 hover:border-primary/50 dark:hover:border-indigo-500/50 transition-all duration-500 hover:shadow-xl hover:-translate-y-2 animate-fade-in-up"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="flex items-start gap-4 mb-6">
                     <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                       <phase.icon className="w-8 h-8 text-white" />
                     </div>
-                    <div className="text-6xl font-bold text-primary/20 group-hover:text-primary/30 transition-colors duration-300">
+                    <div className="text-6xl font-bold text-primary/20 dark:text-indigo-500/20 group-hover:text-primary/30 dark:group-hover:text-indigo-500/30 transition-colors duration-300">
                       {phase.step}
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-text-DEFAULT mb-3">
-                    {phase.title}
+                  <h3 className="text-xl font-bold text-text-DEFAULT dark:text-gray-100 mb-3">
+                    {t(phase.titleKey)}
                   </h3>
-                  <p className="text-text-muted leading-relaxed">
-                    {phase.description}
+                  <p className="text-text-muted dark:text-gray-300 leading-relaxed">
+                    {t(phase.descKey)}
                   </p>
                 </div>
               ))}
@@ -285,17 +257,17 @@ export default function Services() {
           <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:3rem_3rem]" />
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in-up">
-              Ready to Start Your Project?
+              {t("services.cta.title")}
             </h2>
             <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-              Let's discuss how we can bring your vision to life with premium software solutions.
+              {t("services.cta.subtitle")}
             </p>
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <a
                 href="/contact"
                 className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#4F46E5] rounded-xl font-semibold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105"
               >
-                <span className="text-[#4F46E5]">Contact Us Today</span>
+                <span className="text-[#4F46E5]">{t("services.cta.button")}</span>
               </a>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './src/app/**/*.{ts,tsx}',
     './src/components/**/*.{ts,tsx}',
@@ -27,8 +28,8 @@ const config: Config = {
           muted: '#F8FAFC', // slate-50
         },
         text: {
-          DEFAULT: '#0F172A', // slate-900
-          muted: '#64748B', // slate-500
+          DEFAULT: '#0F172A', // slate-900 - will be overridden by CSS variable
+          muted: '#64748B', // slate-500 - will be overridden by CSS variable
           light: '#94A3B8', // slate-400
         },
         gradient: {

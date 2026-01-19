@@ -5,11 +5,15 @@ import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+// import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const onScroll = () => {
@@ -26,11 +30,11 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/services", label: "Services" },
-    { href: "/portfolio", label: "Portfolio" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
+    { href: "/", label: t("nav.home"), key: "nav.home" },
+    { href: "/services", label: t("nav.services"), key: "nav.services" },
+    { href: "/portfolio", label: t("nav.portfolio"), key: "nav.portfolio" },
+    { href: "/about", label: t("nav.about"), key: "nav.about" },
+    { href: "/contact", label: t("nav.contact"), key: "nav.contact" },
   ];
 
   const isActive = (href: string) => {
@@ -44,7 +48,11 @@ export default function Navbar() {
     <nav
       className={`
         fixed top-0 left-0 w-full z-50 transition-all duration-300
-        ${scrolled ? "bg-white/95 backdrop-blur-md shadow-lg shadow-primary/5" : "bg-white"}
+        ${scrolled 
+          ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg shadow-primary/5 dark:shadow-gray-900/20" 
+          : "bg-white dark:bg-gray-900"
+        }
+        border-b border-gray-200 dark:border-gray-800
       `}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
@@ -57,7 +65,7 @@ export default function Navbar() {
             height={40}
             className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
           />
-          <span className="text-xl font-bold text-text-DEFAULT hidden sm:inline bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <span className="text-xl font-bold text-text-DEFAULT dark:text-gray-100 hidden sm:inline bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             Devs Valhalla
           </span>
         </Link>
@@ -70,8 +78,8 @@ export default function Navbar() {
                 href={link.href}
                 className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-300 relative ${
                   isActive(link.href)
-                    ? "bg-[#4F46E5] text-white shadow-md"
-                    : "text-text-muted hover:text-primary hover:bg-indigo-50"
+                    ? "bg-[#4F46E5] dark:bg-indigo-600 text-white shadow-md"
+                    : "text-text-muted dark:text-gray-300 hover:text-primary dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-800"
                 }`}
               >
                 {link.label}
@@ -84,21 +92,29 @@ export default function Navbar() {
         </ul>
 
         {/* CTA Desktop */}
-        <Link
-          href="/contact"
-          className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] rounded-lg text-white font-semibold shadow-md hover:shadow-lg hover:shadow-[#4F46E5]/30 transition-all duration-300 hover:scale-105"
-        >
-          Contact Us
-        </Link>
+        <div className="hidden md:flex items-center gap-3">
+          {/* <ThemeToggle /> */}
+          <LanguageSwitcher />
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] rounded-lg text-white font-semibold shadow-md hover:shadow-lg hover:shadow-[#4F46E5]/30 transition-all duration-300 hover:scale-105"
+          >
+            {t("nav.getStarted")}
+          </Link>
+        </div>
 
-        {/* Mobile button */}
-        <button
-          className="md:hidden text-text-DEFAULT hover:text-primary transition-colors"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-        >
-          {open ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        {/* Mobile: Language Switcher + Menu Button */}
+        <div className="md:hidden flex items-center gap-2">
+          {/* <ThemeToggle /> */}
+          <LanguageSwitcher />
+          <button
+            className="text-text-DEFAULT dark:text-gray-100 hover:text-primary dark:hover:text-indigo-400 transition-colors"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+          >
+            {open ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -108,7 +124,7 @@ export default function Navbar() {
           ${open ? "max-h-screen opacity-100" : "max-h-0 opacity-0"}
         `}
       >
-        <div className="bg-white px-6 py-6 flex flex-col gap-4 border-t border-gray-200 shadow-lg">
+        <div className="bg-white dark:bg-gray-900 px-6 py-6 flex flex-col gap-4 border-t border-gray-200 dark:border-gray-800 shadow-lg">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -117,7 +133,7 @@ export default function Navbar() {
               className={`px-4 py-3 rounded-lg font-semibold transition-all duration-300 ${
                 isActive(link.href)
                   ? "bg-[#4F46E5] text-white"
-                  : "text-text-DEFAULT hover:bg-indigo-50"
+                  : "text-text-DEFAULT dark:text-gray-100 hover:bg-indigo-50 dark:hover:bg-gray-800"
               }`}
             >
               {link.label}
@@ -128,7 +144,7 @@ export default function Navbar() {
             onClick={() => setOpen(false)}
             className="mt-2 inline-flex justify-center items-center gap-2 px-5 py-3 bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] rounded-lg text-white font-semibold transition-all duration-300"
           >
-            Contact Us
+            {t("nav.getStarted")}
           </Link>
         </div>
       </div>

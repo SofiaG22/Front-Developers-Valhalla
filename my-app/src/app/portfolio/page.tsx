@@ -3,6 +3,7 @@
 import Navbar from "@/components/Navbar";
 import { ExternalLink, Github, Globe, Smartphone, Cloud, Code2, TrendingUp, Award } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const projects = [
   {
@@ -91,14 +92,9 @@ const projects = [
   },
 ];
 
-const stats = [
-  { icon: Award, value: "100+", label: "Projects Delivered" },
-  { icon: TrendingUp, value: "50+", label: "Happy Clients" },
-  { icon: Globe, value: "15+", label: "Countries Served" },
-  { icon: Code2, value: "5+", label: "Years Experience" },
-];
-
 export default function Portfolio() {
+  const { t } = useLanguage();
+  
   return (
     <>
       <Navbar />
@@ -114,25 +110,29 @@ export default function Portfolio() {
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
             <div className="animate-fade-in-up">
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight">
-                Our
+                {t("portfolio.hero.title")}
                 <br />
                 <span className="bg-gradient-to-r from-white via-indigo-100 to-white bg-clip-text text-transparent">
-                  Portfolio
+                  {t("portfolio.hero.title2")}
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-                Showcasing premium software solutions that drive real business results.
-                Every project tells a story of innovation, quality, and success.
+                {t("portfolio.hero.subtitle")}
               </p>
             </div>
           </div>
         </section>
 
         {/* Stats Section */}
-        <section className="py-16 bg-white border-b border-gray-200">
+        <section className="py-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {stats.map((stat, index) => (
+              {[
+                { icon: Award, value: "100+", labelKey: "portfolio.stats.projects" },
+                { icon: TrendingUp, value: "50+", labelKey: "portfolio.stats.clients" },
+                { icon: Globe, value: "15+", labelKey: "portfolio.stats.countries" },
+                { icon: Code2, value: "5+", labelKey: "portfolio.stats.years" },
+              ].map((stat, index) => (
                 <div
                   key={index}
                   className="text-center animate-fade-in-up group"
@@ -141,8 +141,8 @@ export default function Portfolio() {
                   <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-primary to-accent rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300">
                     <stat.icon className="w-7 h-7 text-white" />
                   </div>
-                  <div className="text-3xl md:text-4xl font-bold text-text-DEFAULT mb-2">{stat.value}</div>
-                  <div className="text-text-muted font-medium">{stat.label}</div>
+                  <div className="text-3xl md:text-4xl font-bold text-text-DEFAULT dark:text-gray-100 mb-2">{stat.value}</div>
+                  <div className="text-text-muted dark:text-gray-300 font-medium">{t(stat.labelKey)}</div>
                 </div>
               ))}
             </div>
@@ -150,13 +150,13 @@ export default function Portfolio() {
         </section>
 
         {/* Projects Grid */}
-        <section className="py-24 bg-gradient-to-b from-white to-background-muted">
+        <section className="py-24 bg-gradient-to-b from-white dark:from-gray-900 to-background-muted dark:to-gray-800 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {projects.map((project, index) => (
                 <div
                   key={index}
-                  className="group relative bg-white rounded-3xl overflow-hidden border-2 border-gray-200 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up"
+                  className="group relative bg-white dark:bg-gray-800 rounded-3xl overflow-hidden border-2 border-gray-200 dark:border-gray-700 hover:border-primary/50 dark:hover:border-indigo-500/50 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   {/* Project Image Placeholder */}
@@ -172,14 +172,14 @@ export default function Portfolio() {
                   <div className="p-8">
                     <div className="flex items-start justify-between mb-4">
                       <div>
-                        <h3 className="text-2xl font-bold text-text-DEFAULT mb-2">
+                        <h3 className="text-2xl font-bold text-text-DEFAULT dark:text-gray-100 mb-2">
                           {project.title}
                         </h3>
-                        <p className="text-sm text-primary font-semibold">{project.client}</p>
+                        <p className="text-sm text-primary dark:text-indigo-400 font-semibold">{project.client}</p>
                       </div>
                     </div>
 
-                    <p className="text-text-muted mb-6 leading-relaxed">
+                    <p className="text-text-muted dark:text-gray-300 mb-6 leading-relaxed">
                       {project.description}
                     </p>
 
@@ -188,7 +188,7 @@ export default function Portfolio() {
                       {project.technologies.map((tech, tIndex) => (
                         <span
                           key={tIndex}
-                          className="px-3 py-1 bg-background-muted text-text-muted text-xs font-medium rounded-lg"
+                          className="px-3 py-1 bg-background-muted dark:bg-gray-700 text-text-muted dark:text-gray-300 text-xs font-medium rounded-lg"
                         >
                           {tech}
                         </span>
@@ -196,13 +196,13 @@ export default function Portfolio() {
                     </div>
 
                     {/* Results */}
-                    <div className="grid grid-cols-3 gap-4 pt-6 border-t border-gray-200">
+                    <div className="grid grid-cols-3 gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
                       {project.results.map((result, rIndex) => (
                         <div key={rIndex} className="text-center">
                           <div className={`text-2xl font-bold bg-gradient-to-br ${project.gradient} bg-clip-text text-transparent mb-1`}>
                             {result.metric}
                           </div>
-                          <div className="text-xs text-text-muted">{result.label}</div>
+                          <div className="text-xs text-text-muted dark:text-gray-300">{result.label}</div>
                         </div>
                       ))}
                     </div>
@@ -221,17 +221,17 @@ export default function Portfolio() {
           <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:3rem_3rem]" />
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in-up">
-              Want to Be Our Next Success Story?
+              {t("portfolio.cta.title")}
             </h2>
             <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-              Let's discuss your project and see how we can help you achieve your goals.
+              {t("portfolio.cta.subtitle")}
             </p>
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <a
                 href="/contact"
                 className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#4F46E5] rounded-xl font-semibold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105"
               >
-                <span className="text-[#4F46E5]">Start Your Project</span>
+                <span className="text-[#4F46E5]">{t("portfolio.cta.button")}</span>
               </a>
             </div>
           </div>
