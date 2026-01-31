@@ -1,6 +1,6 @@
 "use client";
 
-import { Smartphone, Monitor, Cloud, Database, Shield, Sparkles, Code } from "lucide-react";
+import { Smartphone, Monitor, Cloud, Database, Shield, Sparkles, Code, TrendingUp, ExternalLink } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const products = [
@@ -10,6 +10,15 @@ const products = [
     description: "Scalable, performant web apps built with modern frameworks. React, Next.js, Vue.js, and more.",
     features: ["Responsive Design", "SEO Optimized", "PWA Support", "API Integration"],
     popular: true,
+  },
+  {
+    icon: TrendingUp,
+    title: "ConversionIQ",
+    description: "Universal conversion tracking and analytics platform. Works on WordPress, HTML, React, Vue, Next.js, and any website. Discover where users leave without converting and recover 15-30% of lost revenue.",
+    features: ["Click & Scroll Tracking", "No-Click Page Detection", "Conversion Opportunities", "Real-time Insights"],
+    popular: false,
+    featured: true,
+    link: "https://conversioniq.developersvalhalla.com/",
   },
   {
     icon: Smartphone,
@@ -79,14 +88,22 @@ export default function Products() {
             <div
               key={index}
               className={`group relative bg-white dark:bg-gray-800 rounded-2xl p-8 border-2 transition-all duration-300 hover:-translate-y-2 ${
-                product.popular
+                product.featured
+                  ? "border-2 border-yellow-400 dark:border-yellow-500 shadow-2xl shadow-yellow-500/30 dark:shadow-yellow-500/20 ring-4 ring-yellow-400/20 dark:ring-yellow-500/20"
+                  : product.popular
                   ? "border-primary dark:border-indigo-500 shadow-xl shadow-primary/20 dark:shadow-indigo-900/20"
                   : "border-gray-200 dark:border-gray-700 hover:border-primary/50 dark:hover:border-indigo-500/50 shadow-sm hover:shadow-xl"
               } animate-fade-in-up`}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
+              {/* Featured Badge */}
+              {product.featured && (
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-gray-900 text-xs font-bold rounded-full shadow-lg animate-pulse">
+                  ⭐ {t("products.featured")}
+                </div>
+              )}
               {/* Popular Badge */}
-              {product.popular && (
+              {product.popular && !product.featured && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-primary to-accent text-white text-xs font-bold rounded-full">
                   {t("products.popular")}
                 </div>
@@ -95,14 +112,20 @@ export default function Products() {
               {/* Icon */}
               <div
                 className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 transition-transform duration-300 group-hover:scale-110 ${
-                  product.popular
+                  product.featured
+                    ? "bg-gradient-to-br from-yellow-400 to-yellow-600"
+                    : product.popular
                     ? "bg-gradient-to-br from-primary to-accent"
                     : "bg-primary/10 group-hover:bg-gradient-to-br group-hover:from-primary group-hover:to-accent"
                 }`}
               >
                 <product.icon
                   className={`w-8 h-8 ${
-                    product.popular ? "text-white" : "text-primary group-hover:text-white transition-colors duration-300"
+                    product.featured
+                      ? "text-gray-900"
+                      : product.popular
+                      ? "text-white"
+                      : "text-primary group-hover:text-white transition-colors duration-300"
                   }`}
                 />
               </div>
@@ -127,16 +150,28 @@ export default function Products() {
 
               {/* CTA */}
               <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
-                <a
-                  href="/contact"
-                  className={`block w-full text-center py-3 rounded-lg font-semibold transition-all duration-300 ${
-                    product.popular
-                      ? "bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] text-white hover:shadow-lg hover:scale-105"
-                      : "bg-primary/10 dark:bg-primary/20 text-primary dark:text-indigo-400 hover:bg-gradient-to-r hover:from-[#4F46E5] hover:to-[#7C3AED] hover:text-white"
-                  }`}
-                >
-                  <span className={product.popular ? "text-white" : ""}>{t("products.getStarted")}</span>
-                </a>
+                {product.featured && product.link ? (
+                  <a
+                    href={product.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full text-center py-3 rounded-lg font-semibold transition-all duration-300 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-gray-900 hover:shadow-lg hover:scale-105 hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700"
+                  >
+                    <span>{t("products.viewProject")}</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                ) : (
+                  <a
+                    href="/contact"
+                    className={`block w-full text-center py-3 rounded-lg font-semibold transition-all duration-300 ${
+                      product.popular
+                        ? "bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] text-white hover:shadow-lg hover:scale-105"
+                        : "bg-primary/10 dark:bg-primary/20 text-primary dark:text-indigo-400 hover:bg-gradient-to-r hover:from-[#4F46E5] hover:to-[#7C3AED] hover:text-white"
+                    }`}
+                  >
+                    <span className={product.popular ? "text-white" : ""}>{t("products.getStarted")}</span>
+                  </a>
+                )}
               </div>
                   </div>
                 ))}

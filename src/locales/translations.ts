@@ -34,7 +34,9 @@ export const translations = {
       titleHighlight: "Build",
       subtitle: "Enterprise-grade software solutions crafted with precision and innovation. Each project is a masterpiece of code, design, and user experience.",
       popular: "Most Popular",
+      featured: "Featured Project",
       getStarted: "Get Started",
+      viewProject: "View Project",
     },
     cta: {
       title: "Ready to Transform Your Business?",
@@ -263,7 +265,9 @@ export const translations = {
       titleHighlight: "Construimos",
       subtitle: "Soluciones de software de nivel empresarial creadas con precisión e innovación. Cada proyecto es una obra maestra de código, diseño y experiencia de usuario.",
       popular: "Más Popular",
+      featured: "Proyecto Destacado",
       getStarted: "Comenzar",
+      viewProject: "Ver Proyecto",
     },
     cta: {
       title: "¿Listo para Transformar Tu Negocio?",
