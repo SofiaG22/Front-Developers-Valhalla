@@ -1,11 +1,17 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useRef, FormEvent } from "react";
 import { Send, Mail, MapPin, Phone, CheckCircle2, Loader2 } from "lucide-react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { useLanguage } from "@/contexts/LanguageContext";
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
+const TURNSTILE_ENABLED = TURNSTILE_SITE_KEY.length > 0;
 
 export default function ContactForm() {
   const { t } = useLanguage();
+  const turnstileRef = useRef<TurnstileInstance>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,8 +36,14 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
     setError(null);
+
+    if (TURNSTILE_ENABLED && !turnstileToken) {
+      setError(t("contact.form.captchaRequired"));
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
       const response = await fetch("/api/contact", {
@@ -39,16 +51,28 @@ export default function ContactForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          turnstileToken: turnstileToken ?? undefined,
+        }),
       });
 
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Failed to send message");
+        const data = (await response.json()) as { error?: string };
+        const code = data.error;
+        if (code === "CAPTCHA_REQUIRED") {
+          throw new Error(t("contact.form.captchaRequired"));
+        }
+        if (code === "CAPTCHA_FAILED") {
+          throw new Error(t("contact.form.captchaFailed"));
+        }
+        throw new Error(code || "Failed to send message");
       }
 
       setIsSubmitted(true);
-      
+      setTurnstileToken(null);
+      turnstileRef.current?.reset();
+
       // Reset form after 5 seconds
       setTimeout(() => {
         setIsSubmitted(false);
@@ -61,9 +85,12 @@ export default function ContactForm() {
           projectType: "",
           message: "",
         });
+        turnstileRef.current?.reset();
       }, 5000);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred. Please try again.");
+      setTurnstileToken(null);
+      turnstileRef.current?.reset();
     } finally {
       setIsSubmitting(false);
     }
@@ -324,6 +351,19 @@ export default function ContactForm() {
                   placeholder={t("contact.form.placeholderMessage")}
                 />
               </div>
+
+              {TURNSTILE_ENABLED && (
+                <div className="mb-6 flex justify-center md:justify-start">
+                  <Turnstile
+                    ref={turnstileRef}
+                    siteKey={TURNSTILE_SITE_KEY}
+                    onSuccess={setTurnstileToken}
+                    onExpire={() => setTurnstileToken(null)}
+                    onError={() => setTurnstileToken(null)}
+                    options={{ theme: "auto" }}
+                  />
+                </div>
+              )}
 
               {/* Error Message */}
               {error && (

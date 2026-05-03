@@ -1,10 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+async function verifyTurnstile(
+  token: string | undefined,
+  remoteip: string | undefined
+): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true;
+
+  if (!token) return false;
+
+  const body = new URLSearchParams();
+  body.set("secret", secret);
+  body.set("response", token);
+  if (remoteip) body.set("remoteip", remoteip);
+
+  const res = await fetch(
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+    }
+  );
+
+  const data = (await res.json()) as { success?: boolean };
+  return data.success === true;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, company, phone, budget, projectType, message } = body;
+    const {
+      name,
+      email,
+      company,
+      phone,
+      budget,
+      projectType,
+      message,
+      turnstileToken,
+    } = body;
 
     // Validar campos requeridos
     if (!name || !email || !message) {
@@ -12,6 +48,24 @@ export async function POST(request: NextRequest) {
         { error: "Name, email, and message are required" },
         { status: 400 }
       );
+    }
+
+    if (process.env.TURNSTILE_SECRET_KEY) {
+      if (!turnstileToken) {
+        return NextResponse.json(
+          { error: "CAPTCHA_REQUIRED" },
+          { status: 400 }
+        );
+      }
+      const forwarded = request.headers.get("x-forwarded-for");
+      const remoteip = forwarded?.split(",")[0]?.trim();
+      const ok = await verifyTurnstile(turnstileToken, remoteip);
+      if (!ok) {
+        return NextResponse.json(
+          { error: "CAPTCHA_FAILED" },
+          { status: 400 }
+        );
+      }
     }
 
     // Configurar el transporter de nodemailer

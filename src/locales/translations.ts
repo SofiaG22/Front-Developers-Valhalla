@@ -211,6 +211,8 @@ export const translations = {
         placeholderCompany: "Your Company Inc.",
         placeholderPhone: "+1 (555) 123-4567",
         placeholderMessage: "Tell us about your project, goals, timeline, and any specific requirements...",
+        captchaRequired: "Please complete the verification challenge before sending.",
+        captchaFailed: "Verification failed. Please try again.",
         budgetOptions: {
           select: "Select budget range",
           range1: "$10,000 - $25,000",
@@ -442,6 +444,8 @@ export const translations = {
         placeholderCompany: "Tu Empresa S.A.",
         placeholderPhone: "+57 (1) 234-5678",
         placeholderMessage: "Cuéntanos sobre tu proyecto, objetivos, cronograma y cualquier requisito específico...",
+        captchaRequired: "Completa la verificación antes de enviar el mensaje.",
+        captchaFailed: "La verificación falló. Inténtalo de nuevo.",
         budgetOptions: {
           select: "Seleccionar rango de presupuesto",
           range1: "$10,000 - $25,000",
