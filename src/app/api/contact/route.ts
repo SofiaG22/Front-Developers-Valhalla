@@ -1,6 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+function escapeHtml(text: string | undefined | null): string {
+  if (text == null || text === "") return "";
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** HTML-escape but keep newlines for pre-wrap blocks */
+function escapeHtmlMultiline(text: string | undefined | null): string {
+  if (text == null || text === "") return "";
+  return escapeHtml(text).replace(/\r?\n/g, "<br/>");
+}
+
 async function verifyTurnstile(
   token: string | undefined,
   remoteip: string | undefined
@@ -37,15 +52,35 @@ export async function POST(request: NextRequest) {
       company,
       phone,
       budget,
+      budgetCurrency,
+      budgetAmount,
       projectType,
       message,
       turnstileToken,
     } = body;
 
+    const amountStr =
+      typeof budgetAmount === "string" ? budgetAmount.trim() : "";
+    const currencyStr =
+      typeof budgetCurrency === "string" ? budgetCurrency.trim() : "";
+
     // Validar campos requeridos
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: "Name, email, and message are required" },
+        { status: 400 }
+      );
+    }
+
+    if (amountStr && !currencyStr) {
+      return NextResponse.json(
+        { error: "CURRENCY_REQUIRED" },
+        { status: 400 }
+      );
+    }
+    if (currencyStr && !amountStr) {
+      return NextResponse.json(
+        { error: "AMOUNT_REQUIRED" },
         { status: 400 }
       );
     }
@@ -82,6 +117,23 @@ export async function POST(request: NextRequest) {
     // Verificar la conexión
     await transporter.verify();
 
+    const safe = {
+      name: escapeHtml(name),
+      email: escapeHtml(email),
+      company: escapeHtml(company),
+      phone: escapeHtml(phone),
+      budget: escapeHtml(budget),
+      projectType: escapeHtml(projectType),
+      message: escapeHtmlMultiline(message),
+      budgetCurrency: escapeHtml(currencyStr),
+      budgetAmount: escapeHtml(amountStr),
+    };
+
+    const budgetAmountLine =
+      currencyStr && amountStr
+        ? `<p style="margin: 8px 0;"><strong>Moneda / cantidad:</strong> ${safe.budgetAmount} ${safe.budgetCurrency}</p>`
+        : "";
+
     // Formatear el contenido del correo
     const emailContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb; border-radius: 8px;">
@@ -89,21 +141,22 @@ export async function POST(request: NextRequest) {
         
         <div style="background-color: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
           <h3 style="color: #1f2937; margin-top: 0;">Información del Contacto</h3>
-          <p style="margin: 8px 0;"><strong>Nombre:</strong> ${name}</p>
-          <p style="margin: 8px 0;"><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-          ${company ? `<p style="margin: 8px 0;"><strong>Empresa:</strong> ${company}</p>` : ""}
-          ${phone ? `<p style="margin: 8px 0;"><strong>Teléfono:</strong> <a href="tel:${phone}">${phone}</a></p>` : ""}
+          <p style="margin: 8px 0;"><strong>Nombre:</strong> ${safe.name}</p>
+          <p style="margin: 8px 0;"><strong>Email:</strong> <a href="mailto:${encodeURIComponent(email)}">${safe.email}</a></p>
+          ${company ? `<p style="margin: 8px 0;"><strong>Empresa:</strong> ${safe.company}</p>` : ""}
+          ${phone ? `<p style="margin: 8px 0;"><strong>Teléfono:</strong> <a href="tel:${encodeURIComponent(phone)}">${safe.phone}</a></p>` : ""}
         </div>
 
         <div style="background-color: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
           <h3 style="color: #1f2937; margin-top: 0;">Detalles del Proyecto</h3>
-          ${budget ? `<p style="margin: 8px 0;"><strong>Presupuesto:</strong> ${budget}</p>` : ""}
-          ${projectType ? `<p style="margin: 8px 0;"><strong>Tipo de Proyecto:</strong> ${projectType}</p>` : ""}
+          ${budget ? `<p style="margin: 8px 0;"><strong>Presupuesto:</strong> ${safe.budget}</p>` : ""}
+          ${budgetAmountLine}
+          ${projectType ? `<p style="margin: 8px 0;"><strong>Tipo de Proyecto:</strong> ${safe.projectType}</p>` : ""}
         </div>
 
         <div style="background-color: white; padding: 20px; border-radius: 8px;">
           <h3 style="color: #1f2937; margin-top: 0;">Mensaje</h3>
-          <p style="color: #4b5563; line-height: 1.6; white-space: pre-wrap;">${message}</p>
+          <p style="color: #4b5563; line-height: 1.6;">${safe.message}</p>
         </div>
 
         <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 12px;">
@@ -131,6 +184,7 @@ export async function POST(request: NextRequest) {
         
         Detalles del Proyecto:
         ${budget ? `- Presupuesto: ${budget}` : ""}
+        ${currencyStr && amountStr ? `- Moneda / cantidad: ${amountStr} ${currencyStr}` : ""}
         ${projectType ? `- Tipo de Proyecto: ${projectType}` : ""}
         
         Mensaje:

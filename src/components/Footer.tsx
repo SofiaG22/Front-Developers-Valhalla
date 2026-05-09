@@ -13,7 +13,7 @@ export default function Footer() {
             <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:3rem_3rem]" />
             
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
 
                     {/* Logo & Brand */}
                     <div className="md:col-span-1">
@@ -73,8 +73,8 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Social */}
-                    <div>
+                    {/* Social: hidden — remove class + set grid to md:grid-cols-4 to show */}
+                    <div className="hidden" aria-hidden="true">
                         <h4 className="mb-4 text-white font-bold text-lg">{t("footer.followUs")}</h4>
                         <div className="flex gap-4">
                             <a 

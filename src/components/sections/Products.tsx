@@ -1,7 +1,9 @@
 "use client";
 
+import { motion, useReducedMotion } from "framer-motion";
 import { Smartphone, Monitor, Cloud, Database, Shield, Sparkles, Code } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import ScrollReveal from "@/components/motion/ScrollReveal";
 
 const products = [
   {
@@ -50,7 +52,8 @@ const products = [
 
 export default function Products() {
   const { t } = useLanguage();
-  
+  const reduce = useReducedMotion();
+
   return (
     <section className="py-24 bg-gradient-to-b from-white dark:from-gray-900 to-background-muted dark:to-gray-800 relative overflow-hidden transition-colors duration-300">
       {/* Background Elements */}
@@ -58,12 +61,17 @@ export default function Products() {
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 dark:bg-accent/10 rounded-full blur-3xl -z-10" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16 animate-fade-in-up">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 dark:bg-primary/20 rounded-full text-primary dark:text-indigo-400 font-semibold mb-4">
+        <ScrollReveal className="text-center mb-16">
+          <motion.div
+            initial={reduce ? { scale: 1, opacity: 1 } : { scale: 0.92, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 dark:bg-primary/20 rounded-full text-primary dark:text-indigo-400 font-semibold mb-4"
+          >
             <Sparkles className="w-4 h-4" />
             {t("products.badge")}
-          </div>
+          </motion.div>
           <h2 className="text-4xl md:text-5xl font-bold text-text-DEFAULT dark:text-gray-100 mb-4">
             {t("products.title")}{" "}
             <span className="text-primary dark:text-indigo-400">{t("products.titleHighlight")}</span>
@@ -71,19 +79,26 @@ export default function Products() {
           <p className="text-xl text-text-muted dark:text-gray-300 max-w-3xl mx-auto">
             {t("products.subtitle")}
           </p>
-        </div>
+        </ScrollReveal>
 
-        {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product, index) => (
-            <div
+            <motion.div
               key={index}
-              className={`group relative bg-white dark:bg-gray-800 rounded-2xl p-8 border-2 transition-all duration-300 hover:-translate-y-2 ${
+              initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 48 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{
+                duration: reduce ? 0 : 0.55,
+                delay: reduce ? 0 : index * 0.08,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              whileHover={reduce ? undefined : { y: -10, transition: { type: "spring", stiffness: 380, damping: 24 } }}
+              className={`group relative bg-white dark:bg-gray-800 rounded-2xl p-8 border-2 transition-shadow duration-300 ${
                 product.popular
                   ? "border-primary dark:border-indigo-500 shadow-xl shadow-primary/20 dark:shadow-indigo-900/20"
                   : "border-gray-200 dark:border-gray-700 hover:border-primary/50 dark:hover:border-indigo-500/50 shadow-sm hover:shadow-xl"
-              } animate-fade-in-up`}
-              style={{ animationDelay: `${index * 0.1}s` }}
+              }`}
             >
               {/* Popular Badge */}
               {product.popular && (
@@ -140,16 +155,16 @@ export default function Products() {
                   <span className={product.popular ? "text-white" : ""}>{t("products.getStarted")}</span>
                 </a>
               </div>
-                  </div>
-                ))}
-              </div>
+            </motion.div>
+          ))}
+        </div>
 
               {/* Bottom Note */}
-              <div className="mt-16 text-center animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+              <ScrollReveal delay={0.12} className="mt-16 text-center">
                 <p className="text-lg text-text-muted dark:text-gray-300">
             All projects include: <span className="font-semibold text-text-DEFAULT dark:text-gray-100">Quality Assurance, Documentation, Deployment, & 3 Months Support</span>
           </p>
-        </div>
+              </ScrollReveal>
       </div>
     </section>
   );
