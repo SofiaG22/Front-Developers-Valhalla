@@ -4,7 +4,6 @@ export const translations = {
     nav: {
       home: "Home",
       services: "Services",
-      portfolio: "Portfolio",
       about: "About",
       contact: "Contact",
       getStarted: "Contact Us",
@@ -49,7 +48,6 @@ export const translations = {
       followUs: "Follow Us",
       aboutUs: "About Us",
       services: "Services",
-      portfolio: "Portfolio",
       rightsReserved: "All rights reserved",
       tagline: "Elite software development | Colombia → Global | Premium quality guaranteed",
     },
@@ -235,7 +233,6 @@ export const translations = {
     nav: {
       home: "Inicio",
       services: "Servicios",
-      portfolio: "Portafolio",
       about: "Nosotros",
       contact: "Contacto",
       getStarted: "Comenzar",
@@ -280,7 +277,6 @@ export const translations = {
       followUs: "Síguenos",
       aboutUs: "Nosotros",
       services: "Servicios",
-      portfolio: "Portafolio",
       rightsReserved: "Todos los derechos reservados",
       tagline: "Desarrollo de software de élite | Colombia → Global | Calidad premium garantizada",
     },
