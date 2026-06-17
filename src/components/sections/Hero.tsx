@@ -1,179 +1,99 @@
 "use client";
 
-import { useRef } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useReducedMotion,
-} from "framer-motion";
-import { ArrowRight, Sparkles, Globe, Code2 } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import Button from "@/components/ui/Button";
+import ChevronDecor from "@/components/ui/ChevronDecor";
+import AmbientBackground from "@/components/ui/AmbientBackground";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { MagneticButton } from "@/components/motion/MagneticButton";
 
-const container = {
+const stagger = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.08 },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 28 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const },
-  },
-};
-
-const itemStatic = {
-  hidden: { opacity: 1, y: 0 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
 export default function Hero() {
-  const heroRef = useRef<HTMLElement>(null);
   const { t } = useLanguage();
   const reduce = useReducedMotion();
 
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-
-  const parallaxA = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, 120]);
-  const parallaxB = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -90]);
-  const parallaxC = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, 160]);
-  const contentY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, 80]);
-  const gridOpacity = useTransform(scrollYProgress, [0, 0.5], [0.1, 0.04]);
-
   return (
-    <section
-      ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary via-indigo-600 to-accent"
-    >
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          style={{ y: parallaxA }}
-          animate={reduce ? undefined : { scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-20 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl"
-        />
-        <motion.div
-          style={{ y: parallaxB }}
-          animate={reduce ? undefined : { scale: [1, 1.06, 1], opacity: [0.35, 0.6, 0.35] }}
-          transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-          className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-300/20 rounded-full blur-3xl"
-        />
-        <motion.div
-          style={{ y: parallaxC }}
-          animate={reduce ? undefined : { scale: [1, 1.12, 1], opacity: [0.3, 0.55, 0.3] }}
-          transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[28rem] h-[28rem] bg-violet-400/20 rounded-full blur-3xl"
-        />
+    <section className="relative min-h-screen flex items-center pt-16 overflow-hidden border-b border-brand/40 bg-[#08040f]">
+      <AmbientBackground variant="hero" />
+      <div className="absolute inset-0 bg-gradient-to-br from-brand/20 via-transparent to-brand-deep/15 pointer-events-none" />
+
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/4 md:translate-x-4 pointer-events-none z-0">
+        <ChevronDecor size="lg" animated />
       </div>
 
-      <motion.div
-        style={{ opacity: gridOpacity }}
-        className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:4rem_4rem]"
-      />
+      {/* Vertical accent beam */}
+      <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-brand/80 via-brand/40 to-brand/80 hidden md:block" />
 
-      <motion.div
-        style={{ y: contentY }}
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center"
-      >
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-24 md:py-32">
         <motion.div
-          variants={reduce ? { hidden: { opacity: 1 }, visible: { opacity: 1 } } : container}
+          className="max-w-2xl ml-auto text-right"
+          variants={reduce ? undefined : stagger}
           initial="hidden"
           animate="visible"
-          className="will-change-transform"
         >
-          <motion.div
-            variants={reduce ? itemStatic : item}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-md rounded-full text-white/90 text-sm font-medium mb-8 border border-white/10"
+          <motion.p
+            variants={reduce ? undefined : item}
+            className="inline-flex items-center gap-2 text-brand text-sm font-medium tracking-widest uppercase mb-6 px-4 py-1.5 rounded-full border border-brand/50 bg-brand/20 backdrop-blur-sm shadow-glow-sm"
           >
-            <Sparkles className="w-4 h-4 shrink-0" />
-            <span>{t("hero.badge")}</span>
-          </motion.div>
+            <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+            {t("hero.badge")}
+          </motion.p>
 
           <motion.h1
-            variants={reduce ? itemStatic : item}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight"
+            variants={reduce ? undefined : item}
+            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-foreground leading-[1.05]"
           >
             {t("hero.title")}
             <br />
-            <span className="bg-gradient-to-r from-white via-indigo-100 to-white bg-clip-text text-transparent">
-              {t("hero.title2")}
-            </span>
+            <span className="text-gradient-brand">{t("hero.title2")}</span>
           </motion.h1>
 
           <motion.p
-            variants={reduce ? itemStatic : item}
-            className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10"
+            variants={reduce ? undefined : item}
+            className="mt-8 text-lg md:text-xl text-muted leading-relaxed max-w-xl ml-auto"
           >
             {t("hero.subtitle")}
           </motion.p>
 
           <motion.div
-            variants={reduce ? itemStatic : item}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+            variants={reduce ? undefined : item}
+            className="mt-10 flex flex-col sm:flex-row gap-4 justify-end"
           >
-            <MagneticButton
-              href="/services"
-              className="group inline-flex items-center gap-2 px-8 py-4 bg-white text-primary rounded-xl font-semibold text-lg shadow-2xl shadow-black/20 hover:shadow-3xl hover:shadow-primary/50 transition-shadow duration-300"
-            >
-              <span className="text-primary">{t("hero.cta1")}</span>
-              <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
-            </MagneticButton>
-            <motion.a
-              href="/contact"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-md text-white border-2 border-white/30 rounded-xl font-semibold text-lg hover:bg-white/20 hover:border-white/50 transition-colors duration-300"
-            >
+            <Button href="/contact" showArrow className="shadow-glow-btn">
+              {t("hero.cta1")}
+            </Button>
+            <Button href="/#projects" variant="secondary">
               {t("hero.cta2")}
-            </motion.a>
+            </Button>
           </motion.div>
 
           <motion.div
-            variants={reduce ? itemStatic : item}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+            variants={reduce ? undefined : item}
+            className="mt-20 grid grid-cols-3 gap-6 pt-10 border-t border-brand/40 max-w-lg ml-auto"
           >
             {[
-              { icon: Globe, value: "50+", labelKey: "hero.stats.clients" },
-              { icon: Code2, value: "100+", labelKey: "hero.stats.projects" },
-              { icon: Sparkles, value: "99%", labelKey: "hero.stats.satisfaction" },
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                whileHover={reduce ? undefined : { y: -6, scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 400, damping: 22 }}
-                className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-colors duration-300"
-              >
-                <stat.icon className="w-8 h-8 text-white mb-3 mx-auto" />
-                <div className="text-4xl font-bold text-white mb-2">{stat.value}</div>
-                <div className="text-white/80 text-sm font-medium">{t(stat.labelKey)}</div>
-              </motion.div>
+              { value: "15+", label: t("hero.stats.clients") },
+              { value: "25+", label: t("hero.stats.projects") },
+              { value: "99%", label: t("hero.stats.satisfaction") },
+            ].map((stat) => (
+              <div key={stat.label} className="text-right group">
+                <div className="font-display text-2xl md:text-3xl font-bold text-foreground group-hover:text-brand transition-colors duration-300">
+                  {stat.value}
+                </div>
+                <div className="text-xs text-muted mt-1">{stat.label}</div>
+              </div>
             ))}
           </motion.div>
         </motion.div>
-      </motion.div>
-
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        animate={reduce ? undefined : { y: [0, 10, 0] }}
-        transition={reduce ? undefined : { duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-          <motion.div
-            className="w-1 h-3 bg-white/60 rounded-full mt-2"
-            animate={reduce ? undefined : { y: [0, 12, 0], opacity: [0.5, 1, 0.5] }}
-            transition={reduce ? undefined : { duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

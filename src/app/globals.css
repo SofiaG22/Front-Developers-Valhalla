@@ -1,87 +1,151 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0F172A;
-  --text-default: #0F172A;
-  --text-muted: #64748B;
+  --background: #030005;
+  --foreground: #f8fafc;
+  --surface: #0c0618;
+  --surface-elevated: #120a22;
+  --border: #2a1a4a;
+  --border-subtle: #1a1030;
+  --muted: #a1a1aa;
+  --brand: #6d28d9;
+  --brand-deep: #4c1d95;
+  --brand-glow: rgba(109, 40, 217, 0.35);
 }
 
-.dark {
-  --background: #111827;
-  --foreground: #F9FAFB;
-  --text-default: #F9FAFB;
-  --text-muted: #D1D5DB;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Override Tailwind text colors with CSS variables for dark mode */
-.text-text-DEFAULT {
-  color: var(--text-default) !important;
-}
-
-.text-text-muted {
-  color: var(--text-muted) !important;
-}
-
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
+body {
+  background-color: var(--background);
+  background-image:
+    radial-gradient(ellipse 120% 80% at 0% 0%, rgba(109, 40, 217, 0.22), transparent 55%),
+    radial-gradient(ellipse 80% 60% at 100% 20%, rgba(76, 29, 149, 0.18), transparent 50%),
+    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(109, 40, 217, 0.12), transparent 60%);
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.bg-surface {
+  background-color: var(--surface);
+}
+
+.bg-surface-elevated {
+  background-color: var(--surface-elevated);
+}
+
+.border-brand {
+  border-color: var(--border);
+}
+
+::selection {
+  background-color: #6d28d9;
+  color: #ffffff;
+}
+
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: #1f2937;
+  background: #0c0618;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #4F46E5;
-  border-radius: 5px;
+  background: #4c1d95;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4338CA;
+  background: #6d28d9;
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: #6366f1;
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #818cf8;
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
 }
 
-/* Selection */
-::selection {
-  background-color: #4F46E5;
-  color: white;
-}
-
-.dark ::selection {
-  background-color: #6366f1;
-  color: white;
-}
-
-/* Marquee animation */
-@keyframes scroll {
+@keyframes scan-line {
   0% {
-    transform: translateX(0);
+    transform: translateY(-100%);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateY(100vh);
   }
+}
+
+@keyframes text-shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s ease-out forwards;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+.animate-scan-line {
+  animation: scan-line 10s linear infinite;
+}
+
+.text-gradient-brand {
+  background: linear-gradient(90deg, #c4b5fd, #a78bfa, #6d28d9, #ddd6fe, #6d28d9);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 5s linear infinite;
+}
+
+.section-purple-wash {
+  background:
+    radial-gradient(ellipse 100% 80% at 50% -20%, rgba(109, 40, 217, 0.28), transparent 65%),
+    linear-gradient(180deg, rgba(76, 29, 149, 0.08) 0%, transparent 100%);
+}
+
+.section-purple-deep {
+  background:
+    radial-gradient(ellipse 90% 70% at 20% 50%, rgba(109, 40, 217, 0.2), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 80% 80%, rgba(76, 29, 149, 0.15), transparent 55%),
+    var(--surface);
+}
+
+.purple-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(109, 40, 217, 0.6), transparent);
 }

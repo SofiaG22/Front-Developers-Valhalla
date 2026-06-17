@@ -7,29 +7,23 @@ type ScrollRevealProps = {
   children: ReactNode;
   className?: string;
   delay?: number;
-  y?: number;
+  glow?: boolean;
 };
 
-export default function ScrollReveal({
-  children,
-  className,
-  delay = 0,
-  y = 40,
-}: ScrollRevealProps) {
+export default function ScrollReveal({ children, className, delay = 0, glow = false }: ScrollRevealProps) {
   const reduce = useReducedMotion();
 
   return (
     <motion.div
-      className={className}
-      initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y }}
+      className={`relative ${className ?? ""}`}
+      initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px", amount: 0.2 }}
-      transition={{
-        duration: reduce ? 0 : 0.65,
-        delay: reduce ? 0 : delay,
-        ease: [0.22, 1, 0.36, 1],
-      }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: reduce ? 0 : 0.55, delay: reduce ? 0 : delay, ease: [0.22, 1, 0.36, 1] }}
     >
+      {glow && (
+        <div className="absolute -inset-4 bg-brand/5 blur-2xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+      )}
       {children}
     </motion.div>
   );

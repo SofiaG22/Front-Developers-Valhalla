@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-// import ThemeToggle from "@/components/ThemeToggle";
+import Button from "@/components/ui/Button";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -16,9 +16,7 @@ export default function Navbar() {
   const { t } = useLanguage();
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -30,121 +28,87 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { href: "/", label: t("nav.home"), key: "nav.home" },
-    { href: "/services", label: t("nav.services"), key: "nav.services" },
-    { href: "/about", label: t("nav.about"), key: "nav.about" },
-    { href: "/contact", label: t("nav.contact"), key: "nav.contact" },
+    { href: "/#services", label: t("nav.services") },
+    { href: "/#process", label: t("nav.process") },
+    { href: "/#projects", label: t("nav.projects") },
+    { href: "/about", label: t("nav.about") },
   ];
 
   const isActive = (href: string) => {
-    if (href === "/") {
-      return pathname === "/";
-    }
+    if (href.startsWith("/#")) return false;
     return pathname?.startsWith(href);
   };
 
   return (
     <nav
-      className={`
-        fixed top-0 left-0 w-full z-50 transition-all duration-300
-        ${scrolled 
-          ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg shadow-primary/5 dark:shadow-gray-900/20" 
-          : "bg-white dark:bg-gray-900"
-        }
-        border-b border-gray-200 dark:border-gray-800
-      `}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b ${
+        scrolled
+          ? "bg-[#0c0618]/95 backdrop-blur-xl border-brand/40 shadow-[0_4px_40px_rgba(109,40,217,0.2)]"
+          : "bg-[#0c0618]/80 backdrop-blur-sm border-brand/25"
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <Image
-            src="/logo-DV2.svg"
-            alt="Devs Valhalla Logo"
-            width={120}
-            height={40}
-            className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
-          />
-          <span className="text-xl font-bold text-text-DEFAULT dark:text-gray-100 hidden sm:inline bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Devs Valhalla
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-3">
+          <Image src="/logo-dv.png" alt="DevelopersValhalla" width={36} height={36} className="h-9 w-9" />
+          <span className="font-display font-semibold text-foreground hidden sm:inline text-sm tracking-tight">
+            Developers<span className="text-brand">Valhalla</span>
           </span>
         </Link>
 
-        {/* Desktop menu */}
-        <ul className="hidden md:flex items-center gap-2">
+        <ul className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-300 relative ${
-                  isActive(link.href)
-                    ? "bg-[#4F46E5] dark:bg-indigo-600 text-white shadow-md"
-                    : "text-text-muted dark:text-gray-300 hover:text-primary dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-800"
+                className={`text-sm font-medium transition-colors ${
+                  isActive(link.href) ? "text-brand" : "text-muted hover:text-brand"
                 }`}
               >
                 {link.label}
-                {isActive(link.href) && (
-                  <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full animate-pulse" />
-                )}
               </Link>
             </li>
           ))}
         </ul>
 
-        {/* CTA Desktop */}
-        <div className="hidden md:flex items-center gap-3">
-          {/* <ThemeToggle /> */}
+        <div className="hidden md:flex items-center gap-4">
           <LanguageSwitcher />
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] rounded-lg text-white font-semibold shadow-md hover:shadow-lg hover:shadow-[#4F46E5]/30 transition-all duration-300 hover:scale-105"
-          >
-            {t("nav.getStarted")}
-          </Link>
+          <Button href="/contact" showArrow>
+            {t("nav.bookCall")}
+          </Button>
         </div>
 
-        {/* Mobile: Language Switcher + Menu Button */}
         <div className="md:hidden flex items-center gap-2">
-          {/* <ThemeToggle /> */}
           <LanguageSwitcher />
           <button
-            className="text-text-DEFAULT dark:text-gray-100 hover:text-primary dark:hover:text-indigo-400 transition-colors"
+            type="button"
+            className="text-foreground p-1"
             onClick={() => setOpen(!open)}
             aria-label="Toggle menu"
           >
-            {open ? <X size={28} /> : <Menu size={28} />}
+            {open ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
       <div
-        className={`
-          md:hidden overflow-hidden transition-all duration-300
-          ${open ? "max-h-screen opacity-100" : "max-h-0 opacity-0"}
-        `}
+        className={`md:hidden overflow-hidden transition-all duration-300 border-t border-border ${
+          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
       >
-        <div className="bg-white dark:bg-gray-900 px-6 py-6 flex flex-col gap-4 border-t border-gray-200 dark:border-gray-800 shadow-lg">
+        <div className="bg-black px-6 py-6 flex flex-col gap-4">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className={`px-4 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                isActive(link.href)
-                  ? "bg-[#4F46E5] text-white"
-                  : "text-text-DEFAULT dark:text-gray-100 hover:bg-indigo-50 dark:hover:bg-gray-800"
-              }`}
+              className="text-foreground font-medium py-2"
             >
               {link.label}
             </Link>
           ))}
-          <Link
-            href="/contact"
-            onClick={() => setOpen(false)}
-            className="mt-2 inline-flex justify-center items-center gap-2 px-5 py-3 bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] rounded-lg text-white font-semibold transition-all duration-300"
-          >
-            {t("nav.getStarted")}
-          </Link>
+          <Button href="/contact" showArrow className="mt-2">
+            {t("nav.bookCall")}
+          </Button>
         </div>
       </div>
     </nav>

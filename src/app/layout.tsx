@@ -1,40 +1,45 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import { ThemeProvider } from "@/contexts/ThemeContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: ["600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Devs Valhalla | Premium Software Development | Colombia & USA",
-  description: "Elite software development company from Colombia serving global clients. Premium custom software solutions, enterprise applications, and cutting-edge technology for businesses worldwide, especially USA.",
-  keywords: "software development Colombia, custom software USA, enterprise applications, premium software solutions, web development, mobile apps, Colombia developers, USA software company",
-  authors: [{ name: "Devs Valhalla" }],
+  title: "DevelopersValhalla | Custom Software Development",
+  description:
+    "We build custom software, AI-powered solutions, and scalable digital products that help businesses grow.",
+  keywords:
+    "custom software development, AI solutions, business automation, cloud architecture, DevelopersValhalla",
+  authors: [{ name: "DevelopersValhalla" }],
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+  },
   openGraph: {
-    title: "Devs Valhalla | Premium Software Development",
-    description: "Elite software development from Colombia. Premium custom software for global businesses.",
+    title: "DevelopersValhalla | Custom Software. Built for Your Vision.",
+    description:
+      "We build custom software, AI-powered solutions, and scalable digital products.",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Devs Valhalla | Premium Software Development",
-    description: "Elite software development from Colombia. Premium custom software for global businesses.",
+    title: "DevelopersValhalla",
+    description: "Custom software. Built for your vision.",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -43,36 +48,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const savedTheme = localStorage.getItem('theme');
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const theme = savedTheme === 'dark' || savedTheme === 'light' 
-                  ? savedTheme 
-                  : prefersDark ? 'dark' : 'light';
-                if (theme === 'dark') {
-                  document.documentElement.classList.add('dark');
-                }
-              })();
-            `,
-          }}
-        />
-      </head>
+    <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background dark:bg-gray-900 text-text-DEFAULT dark:text-gray-100 flex flex-col min-h-screen transition-colors duration-300`}
+        className={`${inter.variable} ${spaceGrotesk.variable} antialiased bg-[#030005] text-foreground flex flex-col min-h-screen`}
       >
-        <ThemeProvider>
-          <LanguageProvider>
-            <div className="flex-1">
-              {children}
-            </div>
-            <Footer />
-          </LanguageProvider>
-        </ThemeProvider>
+        <LanguageProvider>
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

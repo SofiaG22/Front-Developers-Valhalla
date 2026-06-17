@@ -2,115 +2,71 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Instagram, Linkedin, Github, Mail, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Footer() {
-    const { t } = useLanguage();
-    return (
-        <footer className="bg-[#4F46E5] text-white relative overflow-hidden mt-auto">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:3rem_3rem]" />
-            
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+  const { t } = useLanguage();
 
-                    {/* Logo & Brand */}
-                    <div className="md:col-span-1">
-                        <div className="flex items-center gap-3 mb-4">
-                            <Image
-                                src="/logo-DVa.png"
-                                alt="Devs Valhalla Logo"
-                                width={100}
-                                height={100}
-                                className="h-12 w-auto"
-                            />
-                            <span className="text-xl font-bold">
-                                Devs Valhalla
-                            </span>
-                        </div>
-                        <p className="text-white/80 text-sm leading-relaxed">
-                            {t("footer.description")}
-                        </p>
-                    </div>
-
-                    {/* Contact */}
-                    <div>
-                        <h4 className="mb-4 text-white font-bold text-lg">{t("footer.contact")}</h4>
-                        <ul className="space-y-3 text-white/80 text-sm">
-                            <li className="flex items-center gap-2">
-                                <Mail className="w-4 h-4 text-white/60" />
-                                <a href="mailto:admin@developersvalhalla.com" className="hover:text-white transition-colors">
-                                    admin@developersvalhalla.com
-                                </a>
-                            </li>
-                            <li className="flex items-center gap-2">
-                                <MapPin className="w-4 h-4 text-white/60" />
-                                <span>Bogotá, Colombia</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Legal */}
-                    <div>
-                        <h4 className="mb-4 text-white font-bold text-lg">{t("footer.legal")}</h4>
-                        <ul className="space-y-3 text-white/80 text-sm">
-                            <li>
-                                <Link href="/about" className="hover:text-white transition-colors">
-                                    {t("footer.aboutUs")}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/services" className="hover:text-white transition-colors">
-                                    {t("footer.services")}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/contact" className="hover:text-white transition-colors">
-                                    {t("footer.contact")}
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Social: hidden — remove class + set grid to md:grid-cols-4 to show */}
-                    <div className="hidden" aria-hidden="true">
-                        <h4 className="mb-4 text-white font-bold text-lg">{t("footer.followUs")}</h4>
-                        <div className="flex gap-4">
-                            <a 
-                                href="#" 
-                                className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-white/20 transition-all duration-300 hover:scale-110"
-                                aria-label="Instagram"
-                            >
-                                <Instagram className="w-5 h-5 text-white" />
-                            </a>
-                            <a 
-                                href="#" 
-                                className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-white/20 transition-all duration-300 hover:scale-110"
-                                aria-label="LinkedIn"
-                            >
-                                <Linkedin className="w-5 h-5 text-white" />
-                            </a>
-                            <a 
-                                href="#" 
-                                className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-white/20 transition-all duration-300 hover:scale-110"
-                                aria-label="GitHub"
-                            >
-                                <Github className="w-5 h-5 text-white" />
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-
-                {/* Bottom */}
-                <div className="pt-8 border-t border-white/20 text-center text-sm text-white/70">
-                    <p>© {new Date().getFullYear()} Devs Valhalla. {t("footer.rightsReserved")}.</p>
-                    <p className="mt-2 text-xs text-white/60">
-                        {t("footer.tagline")}
-                    </p>
-                </div>
+  return (
+    <footer className="bg-[#08040f] border-t border-brand/40 mt-auto relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-t from-brand/20 via-brand-deep/10 to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand/60 to-transparent" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <Image src="/logo-dv.png" alt="DevelopersValhalla" width={32} height={32} className="h-8 w-8" />
+              <span className="font-display font-semibold text-foreground text-sm">
+                Developers<span className="text-brand">Valhalla</span>
+              </span>
             </div>
-        </footer>
-    );
+            <p className="text-muted text-sm leading-relaxed max-w-xs">{t("footer.description")}</p>
+            <p className="mt-3 text-xs text-muted/80">{t("footer.tagline")}</p>
+          </div>
+
+          <div>
+            <h4 className="font-display font-semibold text-foreground text-sm mb-4">{t("footer.contact")}</h4>
+            <ul className="space-y-3 text-sm text-muted">
+              <li className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-brand shrink-0" />
+                <a href="mailto:admin@developersvalhalla.com" className="hover:text-foreground transition-colors">
+                  admin@developersvalhalla.com
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-brand shrink-0" />
+                <span>Bogotá, Colombia</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-display font-semibold text-foreground text-sm mb-4">{t("footer.legal")}</h4>
+            <ul className="space-y-3 text-sm text-muted">
+              <li>
+                <Link href="/about" className="hover:text-foreground transition-colors">
+                  {t("footer.aboutUs")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/services" className="hover:text-foreground transition-colors">
+                  {t("footer.services")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-foreground transition-colors">
+                  {t("footer.contact")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="pt-8 border-t border-brand/15 text-center text-xs text-muted">
+          <p>© {new Date().getFullYear()} DevelopersValhalla. {t("footer.rightsReserved")}.</p>
+        </div>
+      </div>
+    </footer>
+  );
 }

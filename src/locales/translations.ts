@@ -2,23 +2,101 @@
 export const translations = {
   en: {
     nav: {
-      home: "Home",
       services: "Services",
+      process: "Process",
+      projects: "Projects",
       about: "About",
       contact: "Contact",
-      getStarted: "Contact Us",
+      bookCall: "Book a Call",
+      getStarted: "Book a Call",
     },
     hero: {
-      badge: "Premium Software Development",
-      title: "Elite Software",
-      title2: "Development",
-      subtitle: "From Colombia to the world. We craft premium software solutions that scale, delivering exceptional value to businesses across the globe, especially the USA.",
-      cta1: "Explore Our Solutions",
-      cta2: "Get Started",
+      badge: "Building Software with Purpose",
+      title: "Custom Software.",
+      title2: "Built for Your Vision.",
+      subtitle:
+        "We build custom software, AI-powered solutions, and scalable digital products that help businesses grow.",
+      cta1: "Book a Call",
+      cta2: "View Projects",
       stats: {
         clients: "Global Clients",
         projects: "Projects Delivered",
         satisfaction: "Client Satisfaction",
+      },
+    },
+    home: {
+      services: {
+        title: "Solutions that drive growth",
+        subtitle: "We build software that solves real business problems.",
+        item1: {
+          title: "Custom Software Development",
+          desc: "Tailored web and mobile applications engineered for performance, scale, and long-term maintainability.",
+        },
+        item2: {
+          title: "AI Solutions",
+          desc: "Intelligent systems that automate decisions, enhance products, and unlock new capabilities.",
+        },
+        item3: {
+          title: "Business Automation",
+          desc: "Workflows and integrations that eliminate manual work and accelerate operations.",
+        },
+        item4: {
+          title: "Cloud Architecture",
+          desc: "Cloud-native infrastructure designed for reliability, security, and seamless scaling.",
+        },
+      },
+      process: {
+        title: "A clear process. Real results.",
+        subtitle: "From discovery to scale — a proven engineering methodology.",
+        step1: "Discovery",
+        step1desc: "We understand your business, goals, and technical requirements.",
+        step2: "Architecture",
+        step2desc: "We design scalable systems built for long-term success.",
+        step3: "Development",
+        step3desc: "Agile delivery with transparent communication and quality code.",
+        step4: "Launch",
+        step4desc: "Deployment, testing, and a smooth go-live.",
+        step5: "Scale",
+        step5desc: "Ongoing optimization, support, and growth.",
+      },
+      projects: {
+        title: "Featured Projects",
+        subtitle: "Real problems. Engineered solutions. Measurable outcomes.",
+        problem: "Problem",
+        solution: "Solution",
+        outcome: "Outcome",
+        item1: {
+          title: "Enterprise Operations Platform",
+          problem: "Manual processes slowed operations and created data silos.",
+          solution: "Custom ERP with automated workflows and real-time dashboards.",
+          outcome: "60% reduction in processing time and full operational visibility.",
+        },
+        item2: {
+          title: "AI-Powered Analytics",
+          problem: "Teams couldn't extract actionable insights from large datasets.",
+          solution: "ML pipeline with predictive models and an intuitive interface.",
+          outcome: "3x faster decision-making with automated reporting.",
+        },
+        item3: {
+          title: "Cloud Migration",
+          problem: "Legacy infrastructure limited scalability and increased costs.",
+          solution: "Cloud-native architecture with CI/CD and auto-scaling.",
+          outcome: "40% cost reduction and 99.9% uptime.",
+        },
+      },
+      why: {
+        title: "Why DevelopersValhalla",
+        subtitle: "Serious software. Built by engineers who care about outcomes.",
+        item1: "Technical expertise",
+        item2: "Scalable architecture",
+        item3: "Modern technologies",
+        item4: "Long-term partnership",
+        item5: "Fast execution",
+      },
+      finalCta: {
+        title: "Ready to build your next product?",
+        subtitle: "Let's create software that drives real impact.",
+        button: "Book a Call",
       },
     },
     valueProposition: {
@@ -42,20 +120,20 @@ export const translations = {
       button2: "Explore Services",
     },
     footer: {
-      description: "Elite software development from Colombia to the world. Premium solutions for global businesses.",
+      description: "We build custom software that solves real business problems.",
       contact: "Contact",
-      legal: "Legal",
+      legal: "Company",
       followUs: "Follow Us",
-      aboutUs: "About Us",
+      aboutUs: "About",
       services: "Services",
       rightsReserved: "All rights reserved",
-      tagline: "Elite software development | Colombia → Global | Premium quality guaranteed",
+      tagline: "Custom Software. Real Impact.",
     },
     about: {
       hero: {
         title: "About",
-        title2: "Devs Valhalla",
-        subtitle: "From the heart of Colombia to the global stage. We're an elite software development company crafting premium solutions for businesses worldwide.",
+        title2: "DevelopersValhalla",
+        subtitle: "We build custom software that solves real business problems — from Colombia to the world.",
       },
       story: {
         title: "Our",
@@ -108,7 +186,7 @@ export const translations = {
       hero: {
         title: "Our",
         title2: "Services",
-        subtitle: "Comprehensive software development services tailored to your business needs. From concept to deployment and beyond.",
+        subtitle: "Custom software, AI solutions, automation, and cloud architecture — built for real business outcomes.",
       },
       process: {
         title: "Our",
@@ -168,9 +246,9 @@ export const translations = {
     },
     contact: {
       hero: {
-        title: "Get In",
-        title2: "Touch",
-        subtitle: "Ready to transform your business with premium software? Let's start the conversation.",
+        title: "Let's",
+        title2: "Talk",
+        subtitle: "Tell us about your project. We'll respond within 24 hours.",
       },
       info: {
         email: "Email",
@@ -211,7 +289,7 @@ export const translations = {
         selectBudget: "Select budget range",
         selectProjectType: "Select project type",
         whyChooseUs: "Why Choose Us?",
-        whyChooseUs1: "50+ successful projects",
+        whyChooseUs1: "25+ successful projects",
         whyChooseUs2: "Expert Colombian developers",
         whyChooseUs3: "US timezone friendly",
         whyChooseUs4: "Premium quality guarantee",
@@ -255,23 +333,101 @@ export const translations = {
   },
   es: {
     nav: {
-      home: "Inicio",
       services: "Servicios",
+      process: "Proceso",
+      projects: "Proyectos",
       about: "Nosotros",
       contact: "Contacto",
-      getStarted: "Comenzar",
+      bookCall: "Agendar Llamada",
+      getStarted: "Agendar Llamada",
     },
     hero: {
-      badge: "Desarrollo de Software Premium",
-      title: "Desarrollo de Software",
-      title2: "de Élite",
-      subtitle: "De Colombia al mundo. Creamos soluciones de software premium que escalan, entregando valor excepcional a negocios en todo el mundo, especialmente Estados Unidos.",
-      cta1: "Explorar Soluciones",
-      cta2: "Comenzar",
+      badge: "Software con Propósito",
+      title: "Software a Medida.",
+      title2: "Construido para Tu Visión.",
+      subtitle:
+        "Desarrollamos software personalizado, soluciones con IA y productos digitales escalables que impulsan el crecimiento de tu negocio.",
+      cta1: "Agendar Llamada",
+      cta2: "Ver Proyectos",
       stats: {
         clients: "Clientes Globales",
         projects: "Proyectos Entregados",
         satisfaction: "Satisfacción del Cliente",
+      },
+    },
+    home: {
+      services: {
+        title: "Soluciones que impulsan el crecimiento",
+        subtitle: "Construimos software que resuelve problemas reales de negocio.",
+        item1: {
+          title: "Desarrollo de Software a Medida",
+          desc: "Aplicaciones web y móviles diseñadas para rendimiento, escala y mantenibilidad a largo plazo.",
+        },
+        item2: {
+          title: "Soluciones con IA",
+          desc: "Sistemas inteligentes que automatizan decisiones, mejoran productos y desbloquean nuevas capacidades.",
+        },
+        item3: {
+          title: "Automatización de Negocios",
+          desc: "Flujos de trabajo e integraciones que eliminan trabajo manual y aceleran operaciones.",
+        },
+        item4: {
+          title: "Arquitectura Cloud",
+          desc: "Infraestructura cloud-native diseñada para confiabilidad, seguridad y escalado sin fricciones.",
+        },
+      },
+      process: {
+        title: "Un proceso claro. Resultados reales.",
+        subtitle: "Del descubrimiento al escalado — una metodología de ingeniería probada.",
+        step1: "Descubrimiento",
+        step1desc: "Entendemos tu negocio, objetivos y requisitos técnicos.",
+        step2: "Arquitectura",
+        step2desc: "Diseñamos sistemas escalables construidos para el éxito a largo plazo.",
+        step3: "Desarrollo",
+        step3desc: "Entrega ágil con comunicación transparente y código de calidad.",
+        step4: "Lanzamiento",
+        step4desc: "Despliegue, pruebas y una puesta en marcha sin fricciones.",
+        step5: "Escalado",
+        step5desc: "Optimización continua, soporte y crecimiento.",
+      },
+      projects: {
+        title: "Proyectos Destacados",
+        subtitle: "Problemas reales. Soluciones ingenieras. Resultados medibles.",
+        problem: "Problema",
+        solution: "Solución",
+        outcome: "Resultado",
+        item1: {
+          title: "Plataforma de Operaciones Empresariales",
+          problem: "Procesos manuales ralentizaban operaciones y creaban silos de datos.",
+          solution: "ERP personalizado con flujos automatizados y dashboards en tiempo real.",
+          outcome: "60% de reducción en tiempo de procesamiento y visibilidad operativa completa.",
+        },
+        item2: {
+          title: "Analítica con IA",
+          problem: "Los equipos no podían extraer insights accionables de grandes volúmenes de datos.",
+          solution: "Pipeline de ML con modelos predictivos e interfaz intuitiva.",
+          outcome: "3x más rapidez en la toma de decisiones con reportes automatizados.",
+        },
+        item3: {
+          title: "Migración a la Nube",
+          problem: "Infraestructura legacy limitaba escalabilidad y aumentaba costos.",
+          solution: "Arquitectura cloud-native con CI/CD y auto-escalado.",
+          outcome: "40% de reducción de costos y 99.9% de uptime.",
+        },
+      },
+      why: {
+        title: "Por qué DevelopersValhalla",
+        subtitle: "Software serio. Construido por ingenieros que se preocupan por los resultados.",
+        item1: "Experiencia técnica",
+        item2: "Arquitectura escalable",
+        item3: "Tecnologías modernas",
+        item4: "Alianza a largo plazo",
+        item5: "Ejecución rápida",
+      },
+      finalCta: {
+        title: "¿Listo para construir tu próximo producto?",
+        subtitle: "Creemos software que genere impacto real.",
+        button: "Agendar Llamada",
       },
     },
     valueProposition: {
@@ -295,14 +451,14 @@ export const translations = {
       button2: "Explorar Servicios",
     },
     footer: {
-      description: "Desarrollo de software de élite desde Colombia hacia el mundo. Soluciones premium para empresas globales.",
+      description: "Construimos software personalizado que resuelve problemas reales de negocio.",
       contact: "Contacto",
-      legal: "Legal",
+      legal: "Empresa",
       followUs: "Síguenos",
       aboutUs: "Nosotros",
       services: "Servicios",
       rightsReserved: "Todos los derechos reservados",
-      tagline: "Desarrollo de software de élite | Colombia → Global | Calidad premium garantizada",
+      tagline: "Software a Medida. Impacto Real.",
     },
     about: {
       hero: {
@@ -421,9 +577,9 @@ export const translations = {
     },
     contact: {
       hero: {
-        title: "Ponte En",
-        title2: "Contacto",
-        subtitle: "¿Listo para transformar tu negocio con software premium? Iniciemos la conversación.",
+        title: "Hablemos",
+        title2: "Contigo",
+        subtitle: "Cuéntanos sobre tu proyecto. Te responderemos en un plazo de 24 horas.",
       },
       info: {
         email: "Correo",
@@ -464,7 +620,7 @@ export const translations = {
         selectBudget: "Seleccionar rango de presupuesto",
         selectProjectType: "Seleccionar tipo de proyecto",
         whyChooseUs: "¿Por Qué Elegirnos?",
-        whyChooseUs1: "50+ proyectos exitosos",
+        whyChooseUs1: "25+ proyectos exitosos",
         whyChooseUs2: "Desarrolladores colombianos expertos",
         whyChooseUs3: "Zona horaria compatible con EE.UU.",
         whyChooseUs4: "Garantía de calidad premium",

@@ -128,8 +128,8 @@ export default function Portfolio() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
-                { icon: Award, value: "100+", labelKey: "portfolio.stats.projects" },
-                { icon: TrendingUp, value: "50+", labelKey: "portfolio.stats.clients" },
+                { icon: Award, value: "25+", labelKey: "portfolio.stats.projects" },
+                { icon: TrendingUp, value: "15+", labelKey: "portfolio.stats.clients" },
                 { icon: Globe, value: "15+", labelKey: "portfolio.stats.countries" },
                 { icon: Code2, value: "5+", labelKey: "portfolio.stats.years" },
               ].map((stat, index) => (
