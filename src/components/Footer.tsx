@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Wordmark from "@/components/Wordmark";
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -15,11 +15,8 @@ export default function Footer() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <Image src="/logo-dv.png" alt="DevelopersValhalla" width={32} height={32} className="h-8 w-8" />
-              <span className="font-display font-semibold text-foreground text-sm">
-                Developers<span className="text-brand">Valhalla</span>
-              </span>
+            <div className="mb-4">
+              <Wordmark height={30} />
             </div>
             <p className="text-muted text-sm leading-relaxed max-w-xs">{t("footer.description")}</p>
             <p className="mt-3 text-xs text-muted/80">{t("footer.tagline")}</p>

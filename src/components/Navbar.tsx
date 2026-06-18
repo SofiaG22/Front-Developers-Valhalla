@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import Button from "@/components/ui/Button";
+import Wordmark from "@/components/Wordmark";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -48,12 +48,7 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3">
-          <Image src="/logo-dv.png" alt="DevelopersValhalla" width={36} height={36} className="h-9 w-9" />
-          <span className="font-display font-semibold text-foreground hidden sm:inline text-sm tracking-tight">
-            Developers<span className="text-brand">Valhalla</span>
-          </span>
-        </Link>
+        <Wordmark height={34} />
 
         <ul className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
